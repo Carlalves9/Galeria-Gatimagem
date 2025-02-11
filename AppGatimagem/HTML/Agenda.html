@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Gatimagem</title>
+
+    <link rel="shortcut icon" href="../src/8Região.png" type="image/x-icon">
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://kit.fontawesome.com/60de48ee9a.js" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+
+
+
+  <style>
+    *{
+        margin: 0%;
+        padding: 0%;
+    }
+    body {
+        background-color: black;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin: 0%;
+        padding: 0%;
+        color: rgb(102, 103, 104);
+   
+        
+    }
+    #div_geral {
+         margin: 0 auto;
+        justify-content: center;
+        width: 1052px;
+        height: 690px ; 
+        background-color: rgb(255, 255, 255);
+        color: rgb(83, 81, 81);
+      
+        
+    }
+    #div_inicial, #div_lista_evento {
+        width: 100%;
+        height: 625px;
+        overflow-y: auto;
+        border: 5px solid rgb(74, 2, 94);
+        border-bottom: 10px  solid rgb(74, 2, 94);
+        background-color: rgb(73, 3, 70);
+        color: rgb(255, 255, 255);
+
+    }
+    #div_lista_evento {
+        display: none;
+    }
+    #over {
+        width: 100%;
+        height: 625px;
+        overflow-y: auto;
+        border: 5px solid rgb(74, 2, 94);
+        border-bottom: 10px  solid rgb(74, 2, 94);
+        display: none;
+    }
+
+    ::-webkit-scrollbar {
+            width: 10px;
+            margin-left: 15px;
+            /* Largura da barra de rolagem */
+            cursor: pointer;   
+        }        
+         ::-webkit-scrollbar-thumb {
+            margin-left: 15px;
+            background-color: rgba(3, 95, 3, 0.993);
+            /* Cor do polegar da barra de rolagem */
+            margin-top: 5px;
+            border-radius: 7px;
+            cursor: pointer;
+                
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: rgb(27, 211, 3);         
+        }       
+         ::-webkit-scrollbar-track {
+            /* Cor da trilha da barra de rolagem */
+            margin-left: 15px;    
+            background-color: rgba(105, 2, 88, 0.993);
+            border-radius: 7px;
+            cursor: pointer;
+            margin-bottom: 82px;
+            margin-top: 82px;
+           
+         }
+         #div_head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color:  rgb(117, 4, 148);
+        width: 100%;
+        height: 5vh;
+        padding: 5px;
+        border-top: 5px solid rgb(46, 1, 59);
+    }
+    #img_1 {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 1px solid beige;
+        padding: 2px;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+    #img_1:hover {
+        background-color: rgb(3, 184, 255);
+        border: 2px solid red;
+
+    }
+    #div_button button {
+        width: 25%;
+        padding: 5px;
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.596);
+        color: red;
+     
+    }
+    #div_button button:hover,
+    #div_evento button:hover {
+        background-color: rgb(3, 167, 3);
+        color: rgb(255, 255, 255);
+    }
+    #inpt_obs,
+    #tel_contato,
+    #cidade,
+    #nome_evento,
+    #rua,
+    #bairro,
+    #referencia {
+        width: 45%;
+        padding: 10px;
+        cursor: pointer;
+        background-color: rgba(240, 248, 255, 0);
+        color: rgb(20, 20, 20);
+        margin-left: 15%;
+        border-radius:7px;
+        border: 2px solid rgba(105, 2, 88, 0.993);
+        font-size: 15px;
+    }
+    #numero {
+        width: 12%;
+        padding: 7px;
+        margin-bottom: 10px;
+        margin-left: 15%;
+        border: 2px solid rgba(105, 2, 88, 0.993);
+        font-size: 15px;
+        border-radius: 4px;
+    }
+    #inpt_obs {
+        margin-bottom: 20px;
+        margin-top: 1px;
+    }
+    #tel_contato {
+        margin-bottom: 20px;
+    }
+    #inpt_obs:hover,
+    #cidade:hover,
+    #tel_contato:hover,
+     #Input_data:hover,
+    #horario input:hover,
+    #nome_evento:hover,
+    #numero:hover, 
+    #rua:hover,
+    #bairro:hover,
+    #referencia:hover {
+        background-color: aqua;
+        color: red;
+        border: 2px solid  rgb(6, 160, 26);
+    }
+    #div_button  {
+        width: 50%;
+        margin-left: 55px;
+    }
+    #lbl_nome {
+        color: aliceblue;
+        font-size: 12px;
+    }
+    #div_perfil {
+        display: flex;
+        align-items: center;
+        width: 28%;
+      
+    }
+    #horario,
+    #div_evento,
+    #div_local {
+        width: 80%;
+        margin-left: 15%;
+    }
+    #horario label,
+    #div_evento label,
+    #div_local label {     
+        margin-left: 15%;
+        font-size: 13px;
+        color: rgb(53, 51, 51); 
+    }
+    #horario label:hover,
+    #div_evento label:hover,
+    #div_local label:hover {
+        color: rgba(143, 4, 120, 0.993);
+       
+    } 
+    #h1_title_1 {
+        text-align: center;
+        margin-top: 20px;
+        margin-left: 2%;  
+        font-size: 28px;   
+    }
+    h3 {
+        margin-left: 15%;
+    }
+    #h2 {
+        margin-left: 15%;
+        cursor: pointer;
+        width: 37%;     
+        font-size: 22px;
+    }
+    #h2:hover {
+        color: rgb(97, 3, 89);
+    }
+    #div_none_1,
+    #display_horarios {
+        display: none;
+    }
+    #i_local_event,
+    #i_horario_event {
+        font-size: 16px;
+    }
+    #horario {
+        margin-top: 20px;
+        margin-left: 15%;
+        margin-bottom: 25px;    
+    }
+    #horario input {
+        width: 25%;
+        padding: 5px;
+        cursor: pointer;
+        background-color: rgba(240, 248, 255, 0);
+        border-radius: 4px;
+        border: 2px solid rgba(105, 2, 88, 0.993);
+        margin-left: 15%;
+        font-size: 20px;
+    }
+    #Input_data {
+        width: 25%;
+        padding: 5px;
+        background-color: rgba(240, 248, 255, 0);
+        color: rgb(34, 33, 33);
+        margin-left: 15%;
+        font-size: 16px;
+        border: 2px solid  rgba(105, 2, 88, 0.993);
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    #myProgress {
+            width: 50%;
+            background-color:rgb(117, 3, 108);
+            display: none;
+            border-radius: 10px;
+            margin-left: 25%;
+            margin-bottom: 10px;
+        }     
+        #myBar {
+            width: 1%;
+            /* Começa com 1% */
+            height: 25px;
+            background-color:rgb(30, 211, 6);
+            text-align: center;
+            /* Centraliza horizontalmente */
+            line-height: 25px;
+            /* Centraliza verticalmente */
+            color: rgb(145, 1, 1);
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        #div_footer {    
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 90%;
+            height: 7vh;
+            background-color: rgb(117, 3, 108);
+            margin-top: 70px;
+            margin-bottom: 1px;
+            border-radius: 10px;
+            bottom: 2px;
+            color: rgb(250, 252, 253); 
+        }
+        #div_btn {
+            padding-top: 50px;
+            margin-bottom: 30px;
+            width: 100%;
+            border-top: 5px solid rgba(0, 0, 0, 0);
+        }
+        #div_btn button {
+            width: 25%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.911);
+            color: red;
+            cursor: pointer;
+            border: 4px solid rgb(82, 2, 51);
+            border-radius: 3px;
+            font-size: 14px;
+            margin-right: 70px;
+            margin-left: 25%;        
+        }
+        #div_btn button:hover {
+            background-color: rgb(5, 170, 27);
+            color: rgb(255, 255, 255);
+            border: 4px solid rgb(6, 253, 39);
+            font-weight: bold;
+        }
+        #div_btn label {
+            font-size: 14px;
+            color: rgb(29, 28, 28);
+            cursor: pointer;
+        }
+        #div_btn label:hover {
+            color: red;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        #lbl_time {
+            float: right;
+            margin-right: 2%;
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            padding: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: rgba(27, 24, 24, 0.829);
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        #lbl_time:hover {
+            color: rgb(16, 104, 4);
+            color: rgb(168, 6, 6);
+            background-color: rgba(6, 255, 255, 0.973);
+        } 
+        #p1_,#p2_,#p3_,#p4_,
+        #p5_,#p6_,#p7_,#p8_ {
+            display: none;
+            font-size: 11px;
+            color: rgb(1, 177, 54);
+            margin-left: 15%;
+        }
+        #p1,#p2,#p3,#p4,
+        #p5,#p6,#p7,#p8 {
+            font-size: 11px;
+            color: red;
+            margin-left: 15%;
+        }
+        #horario  #horas_tolerancia {
+        margin-bottom: 15px;
+        }
+        #h1_inicial {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+           
+        }
+        #div_logo {
+            margin: 0 auto;
+            width: 40%;
+            margin-top: 7%;      
+        }
+        #img_logo {
+            width: 430px;
+            height: 460px;
+        }
+        #h1_list {
+            text-align: center;
+            font-size: 25px;
+            margin-top: 7px;
+            margin-bottom: 20px;
+       
+        }
+        #ul_img {
+           max-width: 28px;
+           max-height: 28px;
+        }
+        #div_list {
+            margin: 0 auto;
+            width: 82%;
+            padding: 10px;
+            border-bottom: 5px solid rgba(255, 228, 196, 0.288);
+            border-top: 5px solid rgba(255, 228, 196, 0.212);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        ul {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 98%;
+            height: 3vh;
+            padding: 5px;
+            background-color: aliceblue;
+            color: rgb(19, 18, 18);
+            margin-top: 10px;
+            border-radius: 4px;        
+        }
+        #li {
+
+            background-color: rgb(8, 155, 143);
+            color: rgb(255, 255, 255);
+      
+        }
+        #li:hover {
+            background-color: rgb(32, 177, 3);
+            color: rgb(114, 7, 7);
+
+        }
+        ul:hover {
+            background-color: rgb(6, 236, 37);
+            color: rgb(119, 7, 7);
+
+        }
+        #li_A {
+
+          background-color: rgb(236, 3, 3);
+          color: rgb(255, 255, 255);
+          
+          }
+          #li_A:hover {
+            background-color: rgb(6, 236, 37);
+            color: rgb(119, 7, 7);
+
+          }
+
+        #li_{
+            background-color: rgb(30, 31, 31);
+            color: rgb(131, 127, 127);
+
+        }
+        #ver_ag {
+            float: right;
+            border: 0cap;
+            font-size: 18px;
+            cursor: pointer;
+            color: rgb(78, 77, 77);
+            background-color: rgba(240, 248, 255, 0);
+            margin-right: 15px;
+        }
+        #ver_ag:hover {
+            color: rgb(170, 5, 5);
+        }
+        #ver_ag_ {
+            float: right;
+            border: 0cap;
+            font-size: 18px;
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+            background-color: rgba(240, 248, 255, 0);
+            margin-right: 15px;
+            
+        }
+        #ver_ag_:hover {
+            color: rgb(170, 5, 5);
+        }
+        #ver_ag_1 {
+            float: right;
+            border: 0cap;
+            font-size: 18px;
+            cursor: pointer;
+            color: rgb(88, 87, 87);
+            background-color: rgba(240, 248, 255, 0);
+            margin-right: 15px;
+
+        }
+        #ver_ag_1:hover {
+            color: rgb(54, 8, 8);
+        }
+        #div_pesq {
+            width: 20%;
+            padding: 1px;
+            background-color: rgb(253, 253, 253);
+            border-radius: 20px;
+            border: 1px solid rgb(43, 43, 42);
+            margin-left:10px ;
+            color: rgb(19, 18, 18);
+            margin-top: 3px;
+        }
+        #input_pesq {
+            width: 73%;
+            padding: 2px;
+            border-radius: 10px;
+            margin-left: 7px;
+            background-color: rgba(165, 163, 163, 0);
+            color: rgb(34, 33, 33);
+            cursor: pointer;
+            font-size: 17px;
+            border: 0cap;
+        }
+        #div_pesq:hover, #input_pesq:hover  {
+            background-color: rgb(8, 228, 228);
+            color: rgb(165, 3, 3);
+        }
+        #div_pesq  button {
+            color: aliceblue;
+        }
+        #pesq-1 {
+            font-size: 17px;
+            margin-left: 5px;
+            cursor: pointer;
+            padding: 5px;
+            background-color: rgb(220, 229, 238);
+            border-radius: 50%;
+        }
+        #pesq-1:hover {
+            color: rgb(250, 0, 0);
+            font-weight: bold;
+       
+        }
+        #editar_id {
+            border: 0cap;
+            background-color: rgba(240, 248, 255, 0);
+            font-size: 14px;
+            color: aliceblue;
+        }
+        #editar_id:hover {
+            color: rgb(6, 155, 241);
+        }
+        #lixo {
+            border: 0cap;
+            background-color: rgba(240, 248, 255, 0);
+            font-size: 14px;
+            color: aliceblue;
+        }
+        #lixo:hover {
+            color: red;
+        }
+        #editar_id_ {
+            border: 0cap;
+            background-color: rgba(240, 248, 255, 0);
+            font-size: 14px;
+            color: rgb(78, 77, 77);
+        }
+        #editar_id_:hover {
+            color: rgb(6, 155, 241);
+        }
+        #lixo_ {
+            border: 0cap;
+            background-color: rgba(240, 248, 255, 0);
+            font-size: 14px;
+            color: rgb(78, 77, 77);
+        }
+        #lixo_:hover {
+            color: red;
+        }
+        #lix {
+            display: none;
+        }
+        #edit {
+            display: none;
+        }
+        #div_most {
+            width: 100%;
+            height: 625px;
+            background-color: rgb(255, 248, 248);
+            display: none;
+            border: 5px solid rgb(73, 2, 61);
+            border-bottom: 10px solid rgb(73, 2, 61);
+            overflow-y: auto;   
+        }
+        #img_most {
+            width: 3%;
+            padding: 5px;
+            border: 2px solid brown;
+            border-radius: 7px;
+            margin-right: 20px;
+        }
+        #label_most {
+            font-weight: bold;
+        }
+        #label_most_1 {
+            margin-left: 7%;
+            color: rgb(141, 6, 6);
+        }
+  
+        #div {
+            margin: 0 auto;
+            width: 80%;
+            background-color: rgb(255, 255, 255);
+            height: 39vh;
+            margin-bottom: 30px;
+            padding: 10px;
+            border-radius: 20px;
+            margin-top: 20px;
+            border: 2px solid rgb(104, 1, 58);
+            border-bottom:10px solid;
+        }
+        #div_mos {
+            margin: 0 auto;
+            width: 80%;
+            background-color:  rgb(125, 4, 161);
+            height: 39vh;
+            margin-bottom: 30px;
+            padding: 10px;
+            border-radius: 20px;
+            margin-top: 20px;
+            border: 2px solid rgb(87, 1, 68);
+            border-bottom:10px solid rgb(87, 1, 68);
+            color: aliceblue;
+
+        }
+        #div_mos i {
+            color: rgb(2, 231, 59);
+            
+        }
+        #div_mos i:hover {
+            color: red;
+        }
+        #btn_most {
+            float: right;
+            margin-right: 20px;
+            color: rgb(173, 9, 3);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #btn_most:hover {
+            color: rgb(1, 184, 26);
+        }
+        #btn_most_ {
+            float: right;
+            margin-right: 20px;
+            color: rgb(173, 9, 3);
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #btn_most_:hover {
+            color: rgb(233, 3, 3);
+        }
+        #delet_tudo_list {
+            padding: 5px;
+            font-size: 12px;
+            border-radius: 50%;
+            border: 1px solid rgb(56, 53, 49);
+            background-color: aliceblue;
+            margin-right: 5px;
+        }
+        #div_delet_tudo_list {
+            float: right;
+            margin-right: 10px;         
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        #div_delet_tudo_list label {
+            font-size: 11px; 
+            cursor: pointer;  
+            
+        }
+  
+        #div_delet_tudo_list label:hover{
+            color: rgb(153, 4, 4);
+        }
+        #delet_tudo_list:hover {
+           background-color: rgb(156, 6, 6);
+           border: 1px solid rgb(116, 107, 80);
+        }
+        #obs {
+            width: 100px;
+            padding: 3px;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: rgb(224, 230, 230);
+            color: brown;
+            border: 1px solid rgb(37, 37, 37);
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        #obs:hover {
+            color: aliceblue;
+            background-color: red;
+        }
+        #btn_MSM_list {
+            padding: 1px;
+            padding-left: 3px;
+            padding-right: 3px;
+            font-size: 10px;
+            background-color: rgb(4, 165, 111);
+            border-radius: 37%;
+            border: 0cap;
+            cursor: pointer;
+            float: left;
+            margin-right: 55px;
+            margin-top: 15px;
+            display: none;
+        }
+        #lbl_msm_list {
+            font-size: 12px;
+            font-weight: bold;
+            color: aliceblue;
+            border: 0cap;
+            padding: 1px;
+            padding-left: 2px;
+            padding-right: 2px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        #calendário_MSM_list {
+            font-size: 33px;
+            color:rgb(201, 201, 201);
+            cursor: pointer;
+            padding: 0%;
+            margin: 0%;
+            margin-bottom: 20px;
+            display: none;
+           
+        }
+        #calendário_MSM_list:hover {
+            color:  rgb(75, 252, 6);
+           
+        }
+        #btn_MSM_list:hover,  #lbl_msm_list:hover {
+            background-color: rgb(75, 252, 6);
+            color: brown;
+        }
+      #div_evento  #emoji-container {
+            margin-left:0px;
+            float: center;
+        }
+        #I_btn_emoji {
+            margin-left: 0px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #I_btn_emoji_2 {
+            margin-left: 0px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #I_btn_emoji_2:hover,#I_btn_emoji:hover {
+            color: rgb(177, 7, 7);
+        }
+        #emoji-container {
+            max-width: 55%;
+            float: right;
+            margin-right: 30%;
+            border:  2px solid rgba(0, 0, 0, 0.562);
+            border-radius: 20px;
+            padding: 10px;
+            margin-top: 5px;
+            cursor: pointer;      
+        }
+        #emoji-container2 {
+            max-width: 55%;
+            float: right;
+            margin-right: 33%;
+            border:  1px solid rgba(0, 0, 0, 0.562);
+            border-radius: 20px;
+            padding: 10px;
+            cursor: pointer;        
+        }
+        #emoji-container2:hover, #emoji-container:hover {
+            background-color: aqua;
+        }
+        #div_cores {
+            margin-left:71%;
+           
+        }
+        #div_cores label {
+            font-size: 10px;
+            cursor:pointer;
+        }
+        #div_cores #lbl_black {
+            padding: 1px;
+            padding-left: 8px;
+            padding-right: 8px;
+            background: rgb(39, 35, 35);
+            margin-right: 15px;
+            border-radius: 46%;
+            cursor:pointer;
+        }
+        #div_cores  #lbl_branco {
+            cursor:pointer;
+            padding-left: 7px;
+            padding-right: 7px;
+            background: rgb(255, 255, 255);
+            margin-right: 15px;
+            border-radius: 46%;
+        }
+        #div_cores  #lbl_red {
+            cursor:pointer;
+            padding-left: 7px;
+            padding-right: 7px;
+            background: rgb(221, 3, 3);
+            margin-right: 15px;
+            border-radius: 46%;
+        }
+        #div_cores  #lbl_verde {
+            cursor:pointer;
+            padding-left: 7px;
+            padding-right: 7px;
+            background: rgb(2, 141, 99);
+            margin-right: 15px;
+            border-radius: 46%;
+        }
+        
+   
+
+  </style>
+
+</head>
+<body>
+
+    <div id="div_geral">
+
+        <div id="div_head">
+            <div id="div_perfil">
+                <img id="img_1" src="../src/Profile-PNG-Images.png" alt="" onclick="Ver_foto_user_agenda()">
+                <label id="lbl_nome" for="">Nome</label>
+            </div>
+            <div id="div_button">             
+                <button class="btn_ver_agenda" onclick="Ver_agenda()" >Ver Agenda</button>        
+                <button id="btn_agendar" class="btn_agendar"onclick="Agendar_evento()">Agendar Evento</button>
+                <button id="btn_edite"class="btn_editar" onclick="Editart()" >Mostrar Tudo</button>        
+            </div>
+            <i id="calendário_MSM_list"  class="fa-solid fa-calendar-days"  onclick="Msm_list()"></i>
+            <button id="btn_MSM_list"  title="Mensagens" onclick="Msm_list()"><label id="lbl_msm_list"  for="">0</label></button>
+            <br>
+            <label id="lbl_time" for="">Time</label> 
+        </div>
+        <div id="div_most" >
+            <div id="div_delet_tudo_list">           
+            <button id="delet_tudo_list" onclick="removerTudoLista()"></button><label id="label_ocult" for="">Ocultar</label>
+        </div>
+        <br>
+        
+            <div id="lista_most">      
+            </div>
+        </div>
+        <div id="div_inicial" >  
+            <div id="inicial_body" >
+                <h1 id="h1_inicial" > Agenda de Eventos </h1>
+                <div id="div_logo" >
+                     <img id="img_logo" src="../src/8Região.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div id="div_lista_evento" >
+            <div id="div_pesq">
+                <div dir="div_mani">
+                    <input type="date" name="" id="input_pesq"> <i id="pesq-1" onclick="pesquisar()" class="fa-solid fa-magnifying-glass"></i>
+                </div>      
+            </div>   <div id="div_cores"><label for=""onclick="black_label()" >Passada <label id="lbl_black" for="" onclick="black_label()"></label></label> <label for=""onclick="braco_label()"> Futura <label id="lbl_branco" for="" onclick="braco_label()"></label></label> <label for="" onclick="red_label()"> Dia seguinte <label id="lbl_red" for="" onclick="red_label()"></label></label> <label for=""  onclick="verde_label()"> Hoje_<label id="lbl_verde" for="" onclick="verde_label()"></label></label></div>
+            <h1 id="h1_list">Eventos importantes</h1>
+
+            <div id="div_list">
+
+            </div>
+        </div>
+
+        <div id="over">
+        <div id="div_body">
+          
+            <h1 id="h1_title_1"> Agenda Regional</h1>
+            <br>
+            <div id="myProgress">
+                <div id="myBar">10%</div>
+            </div>
+            <div id="div_evento" >                
+                <h2 id="h2">Titulo</h2>
+                <label for="">De um nome, titulo ao 'Evento'. <br>
+                    <input type="text" name="" id="nome_evento" required placeholder="Titulo do evento">
+                </label> <i id="I_btn_emoji" onclick="ver_emojis_1()" class="fa-regular fa-face-smile"></i>  <label id="emoji-container" onclick="Emojis()"></label>          
+                <p id="p1"> Preecha este campo</p><p id="p1_"> Sucesso!</p> 
+                <br>
+                <label id="lbl_data" for="">Data do Evento <br>
+                      <input id="Input_data" type="date" name=""value=""  required placeholder="Data do evento">
+                </label> 
+                <p id="p2"> Preecha este campo</p><p id="p2_"> Sucesso!</p>
+            </div>
+            <br>
+            <div id="div_local">
+                <h2 id="h2" onclick="ver_local()">Local do evento <i id="i_local_event" class="fa-solid fa-pen"></i></h2>
+                 <div id="div_none_1">
+                <label id="lbl_rua" for="">Rua: <br>
+                    <input type="text" name="" id="rua" required placeholder=" Rua...">
+                </label>   
+        
+                <p id="p3"> Preecha este campo</p><p id="p3_"> Sucesso!</p>
+                <br>
+                <label id="lbl_numero" for="">Numero: <br>
+                    <input type="number" name="" id="numero" required placeholder=" Nº...">
+                </label>
+                <p id="p4"> Preecha este campo</p><p id="p4_"> Sucesso!</p>
+                <br>
+                <label id="lbl_bairro" for="">Bairro: <br>
+                    <input type="text" name="" id="bairro" required placeholder=" Bairro...">
+                </label>
+                <p id="p5"> Preecha este campo</p><p id="p5_"> Sucesso!</p>
+                <br>
+                <label id="lbl_cidade" for="">Cidade: <br>
+                    <input type="text" name="" id="cidade" required placeholder=" Cidade...">
+                </label>
+                <p id="p6"> Preecha este campo</p><p id="p6_"> Sucesso!</p>
+                <br>
+                <label id="lbl_ref" for="">Referencia: <br>
+                    <input type="text" name="" id="referencia" required placeholder=" Ref..."> Opcional!
+                </label>
+                <br>
+                <br>
+                <h3>Tel: p/ contato</h3>
+                <label id="lbl_Tel" for="">Telefone ( whatsApp): <br>
+                    <input type="tel" name="" id="tel_contato" required placeholder=" DD+Número"> Opcional!
+                </label>
+                <br>
+                <div id="OBS">
+                    <label for="">Descreva suas Observações: (Opcinal!) <br>  
+                    <textarea id="inpt_obs" rows="" cols="" placeholder="Anote suas observações..."></textarea><i id="I_btn_emoji_2" onclick="ver_emojis_2()" class="fa-regular fa-face-smile"></i> </label>
+                      <label id="emoji-container2" onclick="Emojis2()"></label>
+                </div> 
+               
+            </div>
+            </div>
+            <div id="horario">
+                <h2 id="h2" onclick="ver_horarios()">Horário do evento <i id="i_horario_event" class="fa-solid fa-pen"></i></h2> 
+                <div id="display_horarios">
+                <label for="">Horário de Inicio <br>
+                    <input type="time" name="" id="horas_inicio" value="" required placeholder="00H00">
+                </label>
+                <p id="p7"> Preecha este campo</p><p id="p7_"> Sucesso!</p>
+                <br>
+                <label for="">Tolerância <br>
+                    <input type="time" name="" id="horas_tolerancia" value="" required placeholder="10 minutos"> Opcional!
+                </label>
+                <br>
+                <label for="">Horário de Termino <br>
+                    <input type="time" name="" id="horas_termino" value="" required placeholder="00H00">
+                </label>
+                <p id="p8"> Preecha este campo</p><p id="p8_"> Sucesso!</p>
+
+            </div>
+         </div>
+
+            <div id="div_btn">
+                <button id="start" onclick="start()">Agendar</button>
+                <label id="limpar" for="" onclick="Limpar_()">Limpar</label>
+
+            </div>
+    </div>
+    <div id="div_footer">
+        <label for=""></label>
+        <label for=""></label>
+        <label for=""></label>
+        <label for=""></label>
+       
+    </div>
+    </div>
+
+    </div>
+    <script>
+        function black_label() {
+
+            window.Swal.fire('Data Passada!','As datas em cor escura significa que o dia do evento ja passou.','warning')
+        };
+        function braco_label() {
+
+      window.Swal.fire('Data Futura!','As datas em cor branca significa que o evento acontecerá futuramente.','warning')
+      };
+      function red_label() {
+
+        window.Swal.fire('Dia Seguinte!','As datas em cor vermelha significa que o evento acontecerá no dia seguinte "Para amanhã!".','warning')
+        };
+        function verde_label() {
+
+    window.Swal.fire('Dia de Hoje!','As datas em cor verde significa que o evento acontecerá hoje.','warning')
+    }
+
+    </script>
+    <script>
+        
+         //Dados User
+            //  var clube_user= localStorage.getItem('Clubes_nome_user');
+             // var nome_user= localStorage.getItem('Nome_user');
+             // var email_user= localStorage.getItem('Email_user');
+           //   var Tel_user= localStorage.getItem('Tel_user');           
+              var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+              
+                var  Nome = nome_user.split(' ');
+             
+               var sobre= Nome[1] ;
+               var nome= Nome[0];
+                if(!Foto_perfil || Foto_perfil == ''){
+            
+                } else {
+                    document.getElementById('img_1').src= Foto_perfil
+                    document.getElementById('lbl_nome').innerHTML= `Olá, ${nome} ${sobre}`
+                };
+
+                if(password !== ''| email_user !== ''){
+              
+                } else {
+                     //   document.getElementById('btn_edite').style.display= 'none';
+                         document.getElementById('btn_agendar').style.display= 'none';
+                }
+               function Ver_foto_user_agenda() {
+              //  window.open(foto_user,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+                window.swal('','', Foto_perfil)
+               };
+
+               function Msm_list(){
+                var itens= document.getElementById('lbl_msm_list').value;
+          
+                 Swal.fire(`${itens} Datas estão agendadas `,`(${itens}) Eventos importantes para seu clube.<p> Confira aqui os eventos!`,``)
+               }
+    </script>
+    <script>
+        function  ver_most() {
+            var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+
+         const MostDiv = document.getElementById('lista_most');
+         MostDiv.innerHTML= ''
+    
+         const firebaseConfigure = {
+        apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+        authDomain: "game-dbv.firebaseapp.com",
+        projectId: "game-dbv",
+        storageBucket: "game-dbv.appspot.com",
+        messagingSenderId: "118219151865",
+        appId: "1:118219151865:web:b6414d5255233264268528",
+        measurementId: "G-K17DLDBYGR"
+      };
+                 
+              firebase.initializeApp(firebaseConfigure);
+              const dbmo = firebase.firestore();
+        
+         const produtosRef = dbmo.collection(`Agenda_${email_user}`);
+      
+          produtosRef.get().then((querySnapshot) => {
+          querySnapshot.forEach(doc => {
+           // localStorage.setItem('docs_list_agenda', doc.data())
+                     
+       var dados = doc.data();
+       const itens =  querySnapshot.size; // Número de documentos na coleção
+      // const newDocNumber = count + 1; // Próximo número sequencial    
+        const Data_evento = dados.Data_evento
+        const userImage= document.createElement('img')
+        const btn_most= document.createElement('butoon')
+        const label_most= document.createElement('label')
+        const label_most_1= document.createElement('h3')
+        const label_most_2=  document.createElement('label')
+        const label_most_3= document.createElement('label')
+        const label_most_4=  document.createElement('label')
+        const label_most_5=  document.createElement('label')
+        const label_most_6= document.createElement('label')
+        const label_most_7=  document.createElement('label')
+        const div = document.createElement("div");
+        const br= document.createElement("br");
+        const br1= document.createElement("br");
+        const br2= document.createElement("br");
+        const br3= document.createElement("br");
+        const br4= document.createElement("br");
+        const br5= document.createElement("br");
+        const br6= document.createElement("br");
+        const br7= document.createElement("br");
+        const br8= document.createElement("br");
+        const btn_most1= document.createElement('butoon')
+        const btn_most2= document.createElement('butoon')
+
+        label_most.textContent= `Evento: ${dados.Nome_Event} ______________________________________________________Data: ${dados.Data_evento}.`
+      
+         label_most_1.textContent= `Local do Evento, data e horários.`
+          label_most_2.textContent= `Rua: ${dados.Rua}, Nº ${dados.Número}.`
+           label_most_3.textContent= `Bairro: ${dados.Bairro} .`
+            label_most_4.textContent= `Cidade: ${dados.Cidade},`
+             label_most_5.textContent= `Horário de Inicio: ${dados.Horas_inicio} H, _____________ Tempo de Tolerância : ${dados.Horas_tolerancia} minutos.`
+              label_most_6.textContent= `Horário de Termino: ${dados.Horas_termino} H.`
+                label_most_7.textContent= `Ref: ${dados.Ref}`
+                btn_most.textContent= 'X'
+                btn_most1.textContent= ''
+                 btn_most2.textContent= 'OBS:'
+                                  
+        userImage.src= '../src/Calendario.png'
+        userImage.id= 'img_most';
+        label_most.id= 'label_most'
+        label_most_1.id= 'label_most_1'
+        label_most_2.id= 'label_most_2'
+        label_most_3.id= 'label_most_2'
+        label_most_4.id= 'label_most_2'
+        label_most_5.id= 'label_most_2'
+        label_most_6.id= 'label_most_2'
+        label_most_7.id= 'label_most_2'
+        btn_most.id= 'btn_most'
+        btn_most1.id= 'btn_most'
+        btn_most2.id= 'obs'
+        div.id= 'div'
+
+        div.appendChild(btn_most);
+        div.appendChild(label_most_1);
+        div.appendChild(userImage);
+        div.appendChild(label_most);
+        div.appendChild(br);
+        div.appendChild(br1);
+        div.appendChild(label_most_2);
+        div.appendChild(br2);
+        div.appendChild(label_most_3);
+        div.appendChild(br3);
+        div.appendChild(label_most_4);
+        div.appendChild(br4);
+        div.appendChild(label_most_5);
+        div.appendChild(br5);
+        div.appendChild(label_most_6);
+        div.appendChild(br6);
+        div.appendChild(label_most_7);
+        div.appendChild(br7);
+        div.appendChild(br8);
+        div.appendChild(btn_most1);
+        div.appendChild(btn_most2);
+          
+        MostDiv.appendChild(div);
+     
+       var N_itens= document.getElementById('lbl_msm_list');
+       N_itens.innerHTML= itens 
+       document.getElementById('lbl_msm_list').value= itens
+      
+        userImage.addEventListener('click', function(){
+         //   window.open(user.Foto,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+            window.swal('','', user.Foto)
+        });
+   
+        btn_most.addEventListener('click', function (){
+            var email_user=  localStorage.getItem('login');
+            
+            if(div.id == 'div' ){        
+                div.id='div_mos';
+                 btn_most.id= 'btn_most'
+                  btn_most.textContent= ''
+                  btn_most.className= 'fa-solid fa-check'
+                    btn_most.style.color= 'aliceblue'
+              //    btn_most1.id= 'btn_most_delete'
+            
+              if(email_user) { 
+                btn_most1.className="fa-solid fa-trash"  
+                btn_most1.style.color= 'aliceblue'
+                btn_most1.style.fontSize='20px'
+                  
+              } else {
+                 btn_most1.textContent= 'Ocultar'
+                 btn_most1.style.color='aliceblue'
+                 btn_most1.className=""                  
+              }
+
+                  btn_most1.addEventListener('click', function(){
+                    
+              var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+                
+               if(email_user) {
+
+               window.Swal.fire({
+             title: `Excluir!`,
+             text: `Deseja mesmo excluir permanentemente o agendamento: ${dados.Nome_Event}, data: ${dados.Data_evento}`,
+             icon: '',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sim, Deletar !',
+             cancelButtonText: 'Não, cancelar'
+         }).then((result) => {
+         
+             if (result.isConfirmed) {
+                
+                var dbs = firebase.firestore();
+               dbs.collection(`Agenda_${email_user}`).doc(doc.id).delete();
+        
+          setTimeout(function(){
+             window.Swal.fire(`Sucesso!`,`O Agendamento foi deletado`,'success')
+           
+             ver_most('click') 
+         },1000)
+               
+        }
+        })       
+               } else {
+              div.style.display='none'        
+           }
+         })          
+            } else {
+                div.id='div';
+                 btn_most.id= 'btn_most_'
+                   btn_most.textContent= 'X'
+                      btn_most.className= ''
+                       btn_most1.textContent= ''
+                       btn_most1.className=""  
+                         btn_most.style.color= 'red'
+            }
+        });
+        btn_most2.addEventListener('click', function(){
+            if(!dados.Obs || dados.Obs == '' ) {
+                Swal.fire('',`Não há observaçõs sobre este evento!`,'warning')
+            } else {
+                Swal.fire('Observações:',`${dados.Obs}`,'')
+            }
+        })
+    })
+})
+      }
+      function removerTudoLista() {
+        var value= document.getElementById('label_ocult')
+            var color_delet= document.getElementById('delet_tudo_list')
+          if(color_delet.style.backgroundColor == 'red') {
+             document.getElementById('delet_tudo_list').style.backgroundColor= 'aliceblue'
+               document.getElementById(`lista_most`).style.display= 'block'
+            
+             value.innerHTML='Ocultar'
+             document.getElementById('delet_tudo_list')
+
+          } else {
+            document.getElementById('delet_tudo_list').style.backgroundColor= 'red'
+             document.getElementById(`lista_most`).style.display= 'none'
+       value.innerHTML='Ver lista'
+            
+          }                   
+        };
+    </script>
+
+          <script>
+            setInterval(function(){
+
+                var nome_Event = document.getElementById('nome_evento').value;
+                var data_do_evento = document.getElementById('Input_data').value;
+                var rua = document.getElementById('rua').value;
+                var numero = document.getElementById('numero').value;
+                var bairro = document.getElementById('bairro').value;
+                var cidade = document.getElementById('cidade').value;
+                var referencia = document.getElementById('referencia').value;
+                var horas_inicio = document.getElementById('horas_inicio').value;
+                var horas_tolerancia = document.getElementById('horas_tolerancia').value;
+                var horas_termino = document.getElementById('horas_termino').value;
+                var tel_contato = document.getElementById('tel_contato').value;
+                var obs_= document.getElementById('inpt_obs').value;
+
+                if(!nome_Event||nome_Event == '') {
+                    document.getElementById('p1').style.display= 'block';  
+                    document.getElementById('p1_').style.display= 'none';
+                } else {
+                    document.getElementById('p1_').style.display= 'block';  
+                    document.getElementById('p1').style.display= 'none';
+
+                };
+                if(!data_do_evento||data_do_evento == '') {
+                    document.getElementById('p2').style.display= 'block';  
+                    document.getElementById('p2_').style.display= 'none';
+                      document.getElementById('div_none_1').style.display= 'none'
+                } else {
+                      document.getElementById('div_none_1').style.display= 'block'
+                    document.getElementById('p2_').style.display= 'block';  
+                    document.getElementById('p2').style.display= 'none';
+                };
+                if(!rua||rua == '') {
+                    document.getElementById('p3').style.display= 'block';  
+                    document.getElementById('p3_').style.display= 'none';
+                } else {
+                    document.getElementById('p3_').style.display= 'block';  
+                    document.getElementById('p3').style.display= 'none';
+                };
+                if(!numero||numero == '') {
+                    document.getElementById('p4').style.display= 'block';  
+                    document.getElementById('p4_').style.display= 'none';
+                } else {
+                    document.getElementById('p4_').style.display= 'block';  
+                    document.getElementById('p4').style.display= 'none';
+                };
+                if(!bairro||bairro == '') {
+                    document.getElementById('p5').style.display= 'block';  
+                    document.getElementById('p5_').style.display= 'none';
+                } else {
+                    document.getElementById('p5_').style.display= 'block';  
+                    document.getElementById('p5').style.display= 'none';
+                };
+                if(!cidade||cidade == '') {
+                    document.getElementById('p6').style.display= 'block';  
+                    document.getElementById('p6_').style.display= 'none';
+                    document.getElementById('display_horarios').style.display= 'none'
+                } else {
+                    document.getElementById('display_horarios').style.display= 'block'
+                    document.getElementById('p6_').style.display= 'block';  
+                    document.getElementById('p6').style.display= 'none';
+                };
+                if(!horas_inicio||horas_inicio == '') {
+                    document.getElementById('p7').style.display= 'block';  
+                    document.getElementById('p7_').style.display= 'none';
+                } else {
+                    document.getElementById('p7_').style.display= 'block';  
+                    document.getElementById('p7').style.display= 'none';
+                };
+                if(!horas_termino||horas_termino == '') {
+                    document.getElementById('p8').style.display= 'block';  
+                    document.getElementById('p8_').style.display= 'none';
+                } else {
+                    document.getElementById('p8_').style.display= 'block';  
+                    document.getElementById('p8').style.display= 'none';
+                };               
+
+            },100)
+          </script>
+
+    <script>
+
+      var bt_05= '';
+      localStorage.setItem('BT_05',bt_05)
+         function Editart() {
+            localStorage.setItem('Emoji_1', '')
+            localStorage.setItem('Emoji_2', '')
+            Limpar_() 
+            document.getElementById('input_pesq').value= ''
+            var btn = document.querySelector('.btn_ver_agenda');
+            var btn_2 = document.querySelector('.btn_agendar');
+            var btn_3 = document.querySelector('.btn_editar');
+            var resp_bt_05= localStorage.getItem('BT_05')
+            if(resp_bt_05 =='') {
+            document.getElementById('over').style.display= 'none'
+            document.getElementById('calendário_MSM_list').style.display= 'block'
+            document.getElementById('btn_MSM_list').style.display= 'block'
+            document.getElementById('div_inicial').style.display= 'none'
+            document.getElementById('div_lista_evento').style.display= 'none'
+            document.getElementById('div_most').style.display= 'block'              
+           localStorage.setItem('BT_05', 'setado')
+           localStorage.setItem('BT_04', '')
+           localStorage.setItem('BT_03', '')
+           btn_3.innerHTML= ' Voltar'
+           btn_2.innerHTML= 'Agendar Evento'
+           btn.innerHTML= 'Ver Agenda'
+           ver_most()
+        } else {
+            document.getElementById('div_lista_evento').style.display= 'none'
+               document.getElementById('div_inicial').style.display= 'block'
+                document.getElementById('div_most').style.display= 'none'
+                localStorage.setItem('BT_05', '')
+                 btn_3.innerHTML= 'Mostrar tudo'
+                 var N_itens= document.getElementById('lbl_msm_list');
+                 N_itens.innerHTML= 0;
+                 document.getElementById('lbl_msm_list').value= 0
+                 document.getElementById('calendário_MSM_list').style.display= 'none'  
+                 document.getElementById('btn_MSM_list').style.display= 'none'                           
+        }
+         };
+
+        var bt_03= '';
+        localStorage.setItem('BT_03',bt_03)
+        function Agendar_evento() {
+            localStorage.setItem('Emoji_1', '')
+            localStorage.setItem('Emoji_2', '')
+            document.getElementById('input_pesq').value= ''
+            var N_itens= document.getElementById('lbl_msm_list');
+            N_itens.innerHTML= 0
+            document.getElementById('calendário_MSM_list').style.display= 'none'     
+            document.getElementById('btn_MSM_list').style.display= 'none'           
+            document.getElementById('lbl_msm_list').value= 0
+            var btn = document.querySelector('.btn_ver_agenda');
+            var btn_2 = document.querySelector('.btn_agendar');
+            var btn_3 = document.querySelector('.btn_editar');
+            var resp_bt_03= localStorage.getItem('BT_03')
+            if(resp_bt_03 =='') {
+            document.getElementById('over').style.display= 'block'
+            document.getElementById('div_inicial').style.display= 'none'
+            document.getElementById('div_lista_evento').style.display= 'none'
+            document.getElementById('div_most').style.display= 'none'
+           localStorage.setItem('BT_03', 'setado')
+           localStorage.setItem('BT_04', '')
+           localStorage.setItem('BT_05', '')    
+           btn_2.innerHTML= ' Voltar'
+           btn_3.innerHTML= 'Mostrar tudo'
+           btn.innerHTML= 'Ver Agenda'
+        } else {
+            Limpar_() 
+            document.getElementById('over').style.display= 'none'
+               document.getElementById('div_inicial').style.display= 'block'
+            localStorage.setItem('BT_03', '')
+            btn_2.innerHTML= 'Agendar Evento'
+        }
+    };
+    var bt_04= '';
+    localStorage.setItem('BT_04',bt_04)
+      function Ver_agenda() {
+        localStorage.setItem('Emoji_1', '')
+        localStorage.setItem('Emoji_2', '')
+        document.getElementById('input_pesq').value= ''
+        var N_itens= document.getElementById('lbl_msm_list');
+        N_itens.innerHTML= 0
+        document.getElementById('lbl_msm_list').value= 0
+
+        Limpar_() 
+        var btn = document.querySelector('.btn_ver_agenda');
+        var btn_2 = document.querySelector('.btn_agendar');
+        var btn_3 = document.querySelector('.btn_editar');
+        var resp_bt_04= localStorage.getItem('BT_04')
+            if(resp_bt_04 =='') {
+            document.getElementById('calendário_MSM_list').style.display= 'block' 
+            document.getElementById('btn_MSM_list').style.display= 'block'           
+            document.getElementById('div_lista_evento').style.display= 'block'
+            document.getElementById('div_inicial').style.display= 'none'
+            document.getElementById('over').style.display= 'none'
+            document.getElementById('div_most').style.display= 'none'
+            localStorage.setItem('BT_04', 'setado')
+            localStorage.setItem('BT_03', '')   
+            localStorage.setItem('BT_05', '')  
+              
+            btn.innerHTML= ` Voltar`
+            btn_2.innerHTML= 'Agendar Evento'
+            btn_3.innerHTML= 'Mostrar tudo'
+            lista_agendada()
+      } else {
+        document.getElementById('div_lista_evento').style.display= 'none'
+               document.getElementById('div_inicial').style.display= 'block'
+                localStorage.setItem('BT_04', '')
+                 btn.innerHTML= 'Ver Agenda'
+                 document.getElementById('calendário_MSM_list').style.display= 'none'
+                 document.getElementById('btn_MSM_list').style.display= 'none'
+      }
+    }
+    </script>
+    <script>
+             var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+             var Data_certa= localStorage.getItem('data')
+             var Hora_certa= localStorage.getItem('hora')
+
+           function lista_agendada(){
+
+          const MemListDiv = document.getElementById('div_list');
+             MemListDiv.innerHTML= ''
+
+             const firebaseConfigures = {
+            apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+            authDomain: "game-dbv.firebaseapp.com",
+            projectId: "game-dbv",
+            storageBucket: "game-dbv.appspot.com",
+            messagingSenderId: "118219151865",
+            appId: "1:118219151865:web:b6414d5255233264268528",
+            measurementId: "G-K17DLDBYGR"
+          };   // Initialize Firebase
+              firebase.initializeApp(firebaseConfigures);
+              const dbm = firebase.firestore();
+         const produtosRef = dbm.collection(`Agenda_${email_user}`);
+
+          produtosRef.get().then((querySnapshot) => {
+          querySnapshot.forEach(doc => {
+            
+       const dados = doc.data();   
+       var Data_evento = dados.Data_evento
+       const itens =  querySnapshot.size; 
+   
+        const button_ = document.createElement('button');
+       const label = document.createElement('label');
+        const userImage = document.createElement('img');
+        const li = document.createElement("ul");
+        userImage.src = `../src/Calendario.png`
+        var  data = Data_evento.split('/');
+          var ano = data[2] ;
+          var mês= data[1] ;
+          var dia= data[0];
+   
+          var  data_ = Data_certa.split('/');
+          var ano_ = data_[2] ;
+          var mês_= data_[1] ;
+          var dia_= data_[0];
+          var mais= Number(dia_) + Number(`01`) 
+          var diaFormatado = String(mais).padStart(2, '0');
+          var amanha= `${diaFormatado}/${mês_}/${ano_}`
+       
+        if(ano<ano_) {
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        } 
+        if(ano == ano_) {
+         if(mês< mês_) {
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        }
+    }
+    if( ano == ano_) {
+        if(mês == mês_) {
+        if(dia < dia_){
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        }
+    }
+    }
+    var lixo = document.createElement('button');
+    var Editar = document.createElement('button');
+         if(dados.Data_evento === Data_certa) {
+             li.id='li'
+             button_.id = 'ver_ag_'
+              userImage.id = 'ul_img'
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+            lixo.id= 'lixo';
+           Editar.id='editar_id';
+            lixo.className = 'fa-solid fa-trash'
+                Editar.className = 'fa-solid fa-pen'
+         } else if(dados.Data_evento == amanha ) {
+            li.id='li_A'
+             button_.id = 'ver_ag_'
+              userImage.id = 'ul_img'
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+            lixo.id= 'lixo';
+           Editar.id='editar_id';
+            lixo.className = 'fa-solid fa-trash'
+                Editar.className = 'fa-solid fa-pen'
+
+        } else {
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+             button_.id = 'ver_ag'
+              userImage.id = 'ul_img'
+              lixo.id= 'lixo_';
+              Editar.id='editar_id_';
+               lixo.className = 'fa-solid fa-trash'
+                   Editar.className = 'fa-solid fa-pen'
+        }
+        
+        var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+      
+    if(email_user) {
+      
+    } else {
+        lixo.id= 'lix';
+        Editar.id='edit';
+    }
+        label.id = 'label_ag'
+        button_.className="fa-solid fa-eye"
+   
+        li.appendChild(userImage);
+        li.appendChild(label);
+        li.appendChild(lixo);
+        li.appendChild(Editar);
+        li.appendChild(button_);
+     
+        MemListDiv.appendChild(li);
+  
+        var N_itens= document.getElementById('lbl_msm_list');
+        N_itens.innerHTML= itens
+        document.getElementById('lbl_msm_list').value= itens
+        userImage.addEventListener('click', function(){
+            window.open(user.Foto,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+            window.Swal.fire(user.Foto)
+        });
+      
+        lixo.addEventListener('click',function(){
+   
+         window.Swal.fire({
+             title: `Excluir!`,
+             text: `Deseja mesmo excluir permanentemente o agendamento: ${dados.Nome_Event}, data: ${dados.Data_evento}`,
+             icon: '',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sim, Deletar !',
+             cancelButtonText: 'Não, cancelar'
+         }).then((result) => {
+         
+             if (result.isConfirmed) {
+                
+                var dbs = firebase.firestore();
+               dbs.collection(`Agenda_${email_user}`).doc(doc.id).delete();
+        
+          setTimeout(function(){
+           window.Swal.fire(`Sucesso!`,`O Agendamento foi deletado`,'success')
+             lista_agendada('click')
+             
+         },2000)
+               
+        }
+        })       
+     });
+        button_.addEventListener('click',function(){
+            
+            window.Swal.fire({
+                title: `Ver mais?`,
+                text: `Ver dados do agendamento: ${dados.Nome_Event},  data: ${dados.Data_evento}, `,
+                icon: '',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, Ver !',
+                cancelButtonText: 'Não, cancelar'
+            }).then((result) => {
+            
+                if (result.isConfirmed) {          
+          //  Swal.fire(`Suceddo`,`${dados.Nome_Event},  data: ${dados.Data_evento}`,'success')    
+            var doc_id= doc.id
+            document.getElementById('input_pesq').value= ''
+            var btn = document.querySelector('.btn_ver_agenda');
+            var btn_2 = document.querySelector('.btn_agendar');
+            var btn_3 = document.querySelector('.btn_editar');
+            var resp_bt_05= localStorage.getItem('BT_05')
+        
+            document.getElementById('over').style.display= 'none'
+            document.getElementById('calendário_MSM_list').style.display= 'block'
+            document.getElementById('btn_MSM_list').style.display= 'block'
+            document.getElementById('div_inicial').style.display= 'none'
+            document.getElementById('div_lista_evento').style.display= 'none'
+            document.getElementById('div_most').style.display= 'block'              
+            localStorage.setItem('BT_05', 'setado')
+            localStorage.setItem('BT_04', '')
+            localStorage.setItem('BT_03', '')
+            btn_3.innerHTML= ' Voltar'
+            btn_2.innerHTML= 'Agendar Evento'
+            btn.innerHTML= 'Ver Agenda'
+            const MostDiv = document.getElementById('lista_most');
+            MostDiv.innerHTML= ''
+
+          const firebaseConfigure= {
+            apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+            authDomain: "game-dbv.firebaseapp.com",
+            projectId: "game-dbv",
+            storageBucket: "game-dbv.appspot.com",
+            messagingSenderId: "118219151865",
+            appId: "1:118219151865:web:b6414d5255233264268528",
+            measurementId: "G-K17DLDBYGR"
+          };
+     
+                  // Initialize Firebase
+              firebase.initializeApp(firebaseConfigure);
+              const dbmos = firebase.firestore();
+        
+         const produtosRef = dbmos.collection(`Agenda_${email_user}`);
+      
+          produtosRef.get(doc.id).then((querySnapshot) => {
+          querySnapshot.forEach(doc => {
+           // localStorage.setItem('docs_list_agenda', doc.data())
+                     
+       var dados = doc.data();
+       if( doc_id == doc.id) {
+
+       const itens =  querySnapshot.size; // Número de documentos na coleção
+      // const newDocNumber = count + 1; // Próximo número sequencial
+      
+        const Data_evento = dados.Data_evento
+        const userImage= document.createElement('img')
+        const btn_most= document.createElement('butoon')
+        const label_most= document.createElement('label')
+        const label_most_1= document.createElement('h3')
+        const label_most_2=  document.createElement('label')
+        const label_most_3= document.createElement('label')
+        const label_most_4=  document.createElement('label')
+        const label_most_5=  document.createElement('label')
+        const label_most_6= document.createElement('label')
+        const label_most_7=  document.createElement('label')
+        const div = document.createElement("div");
+        const br= document.createElement("br");
+        const br1= document.createElement("br");
+        const br2= document.createElement("br");
+        const br3= document.createElement("br");
+        const br4= document.createElement("br");
+        const br5= document.createElement("br");
+        const br6= document.createElement("br");
+        const br7= document.createElement("br");
+        const br8= document.createElement("br");
+        const btn_most1= document.createElement('butoon')
+        const btn_most2= document.createElement('butoon')
+
+        label_most.textContent= `Evento: ${dados.Nome_Event} ______________________________________________________Data: ${dados.Data_evento}.`
+      
+         label_most_1.textContent= `Local do Evento, data e horários.`
+          label_most_2.textContent= `Rua: ${dados.Rua}, Nº ${dados.Número}.`
+           label_most_3.textContent= `Bairro: ${dados.Bairro} .`
+            label_most_4.textContent= `Cidade: ${dados.Cidade},`
+             label_most_5.textContent= `Horário de Inicio: ${dados.Horas_inicio} H, _____________ Tempo de Tolerância : ${dados.Horas_tolerancia} minutos.`
+              label_most_6.textContent= `Horário de Termino: ${dados.Horas_termino} H.`
+                label_most_7.textContent= `Ref: ${dados.Ref}`
+                btn_most.textContent= 'X'
+                btn_most1.textContent= ''
+                 btn_most2.textContent= 'OBS:'
+                                  
+        userImage.src= '../src/Calendario.png'
+        userImage.id= 'img_most';
+        label_most.id= 'label_most'
+        label_most_1.id= 'label_most_1'
+        label_most_2.id= 'label_most_2'
+        label_most_3.id= 'label_most_2'
+        label_most_4.id= 'label_most_2'
+        label_most_5.id= 'label_most_2'
+        label_most_6.id= 'label_most_2'
+        label_most_7.id= 'label_most_2'
+        btn_most.id= 'btn_most'
+        btn_most1.id= 'btn_most'
+        btn_most2.id= 'obs'
+        div.id= 'div'
+
+        div.appendChild(btn_most);
+        div.appendChild(label_most_1);
+        div.appendChild(userImage);
+        div.appendChild(label_most);
+        div.appendChild(br);
+        div.appendChild(br1);
+        div.appendChild(label_most_2);
+        div.appendChild(br2);
+        div.appendChild(label_most_3);
+        div.appendChild(br3);
+        div.appendChild(label_most_4);
+        div.appendChild(br4);
+        div.appendChild(label_most_5);
+        div.appendChild(br5);
+        div.appendChild(label_most_6);
+        div.appendChild(br6);
+        div.appendChild(label_most_7);
+        div.appendChild(br7);
+        div.appendChild(br8);
+        div.appendChild(btn_most1);
+        div.appendChild(btn_most2);
+          
+        MostDiv.appendChild(div);
+
+       var N_itens= document.getElementById('lbl_msm_list');
+       N_itens.innerHTML= itens 
+       document.getElementById('lbl_msm_list').value= itens
+      
+        userImage.addEventListener('click', function(){
+            window.open(user.Foto,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+            window.Swal.fire(user.Foto,'','')
+        });
+   
+        btn_most.addEventListener('click', function (){
+            
+            if(div.id == 'div' ){        
+                div.id='div_mos';
+                 btn_most.id= 'btn_most'
+                  btn_most.textContent= ''
+                  btn_most.className= 'fa-solid fa-check'
+                    btn_most.style.color= 'aliceblue'
+              //    btn_most1.id= 'btn_most_delete'
+              var email_user=  localStorage.getItem('login');
+            
+              if(email_user) { 
+                btn_most1.className="fa-solid fa-trash"  
+                btn_most1.style.color= 'aliceblue'
+                btn_most1.style.fontSize='20px'
+                  
+              } else {
+                 btn_most1.textContent= 'Ocultar'
+                 btn_most1.style.color='aliceblue'
+                 btn_most1.className=""                  
+              }
+
+                  btn_most1.addEventListener('click', function(){                     
+              var email_user=  localStorage.getItem('login');
+              var password= localStorage.getItem('password');
+              var nome_user= localStorage.getItem('nome_login');
+              var Foto_perfil= localStorage.getItem('Foto_perfil')
+               if(email_user) {
+
+               window.Swal.fire({
+             title: `Excluir!`,
+             text: `Deseja mesmo excluir permanentemente o agendamento: ${dados.Nome_Event}, data: ${dados.Data_evento}`,
+             icon: '',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sim, Deletar !',
+             cancelButtonText: 'Não, cancelar'
+         }).then((result) => {
+         
+             if (result.isConfirmed) {
+                
+                var dbs = firebase.firestore();
+               dbs.collection(`Agenda_${email_user}`).doc(doc.id).delete();
+        
+          setTimeout(function(){
+             window.Swal.fire(`Sucesso!`,`O Agendamento foi deletado`,'success')
+           
+             ver_most('click') 
+         },1000)
+               
+        }
+        })       
+               } else {
+              div.style.display='none'        
+           }
+
+         })          
+            } else {
+                div.id='div';
+                 btn_most.id= 'btn_most_'
+                   btn_most.textContent= 'X'
+                      btn_most.className= ''
+                       btn_most1.textContent= ''
+                       btn_most1.className=""  
+                         btn_most.style.color= 'red'
+            }
+        });
+        btn_most2.addEventListener('click', function(){
+            if(!dados.Obs || dados.Obs == '' ) {
+                Swal.fire('',`Não há observaçõs sobre este evento!`,'warning')
+            } else {
+                Swal.fire('Observações:',`${dados.Obs}`,'')
+            }
+        })
+    } else {
+       
+}
+          })
+})       
+        }
+    })
+
+  });
+     
+    Editar.addEventListener('click',function(){
+            
+        window.Swal.fire({
+            title: `Editar!`,
+            text: `Editar informações de: ${dados.Nome_Event},  data: ${dados.Data_evento}`,
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, Editar !',
+            cancelButtonText: 'Não, cancelar'
+        }).then((result) => {
+        
+            if (result.isConfirmed) {
+                Agendar_evento()
+                var datado= dados.Data_evento;
+              var  datado_ = datado.split('/');
+              var textoda= datado_[2] + '-' + datado_[1] + '-' + datado_[0];
+                document.getElementById('nome_evento').value= dados.Nome_Event
+                document.getElementById('rua').value= dados.Rua
+                document.getElementById('numero').value= dados.Número
+                document.getElementById('bairro').value= dados.Bairro
+                document.getElementById('cidade').value= dados.Cidade
+                document.getElementById('referencia').value= dados.Ref
+                document.getElementById('tel_contato').value= dados.Tel;
+                document.getElementById('horas_inicio').value= dados.Horas_inicio
+                document.getElementById('horas_tolerancia').value= dados.Horas_tolerancia
+                document.getElementById('horas_termino').value= dados.Horas_termino
+                document.getElementById('Input_data').value= textoda
+                document.getElementById('inpt_obs').value= dados.Obs
+    }
+        })
+    });
+   })         
+  }) 
+ }
+ function pesquisar() {
+        var position= ''
+   var res_pesquisa= document.getElementById('input_pesq').value;
+ 
+    var Data_certa= localStorage.getItem('data')
+    var Hora_certa= localStorage.getItem('hora')
+    const MemListDiv = document.getElementById('div_list');
+          MemListDiv.innerHTML= ''
+    var  data = res_pesquisa.split('-');
+    var textodata_ = data[2] + '/' + data[1] + '/' + data[0];
+            
+
+            const firebaseConfigures = {
+            apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+            authDomain: "game-dbv.firebaseapp.com",
+            projectId: "game-dbv",
+            storageBucket: "game-dbv.appspot.com",
+            messagingSenderId: "118219151865",
+            appId: "1:118219151865:web:b6414d5255233264268528",
+            measurementId: "G-K17DLDBYGR"
+          };
+                  // Initialize Firebase
+              firebase.initializeApp(firebaseConfigures);
+              const dbm = firebase.firestore();
+         const produtosRef = dbm.collection(`Agenda_${email_user}`);
+
+          produtosRef.get().then((querySnapshot) => {
+          querySnapshot.forEach(doc => {
+            
+
+       const dados = doc.data();
+       
+       if(!res_pesquisa || res_pesquisa == '' ) {
+        Swal.fire('Data vazia!','Preencha o campo com a data desejada.', 'warning')
+         
+     } else {
+   //alert(`${textodata_}, __ ${dados.Data_evento}`)
+ 
+     if(dados.Data_evento == textodata_) {
+        const position= dados.Data_evento
+       var Data_evento = dados.Data_evento
+       const itens =  querySnapshot.size; // Número de documentos na coleção
+       // const newDocNumber = count + 1; // Próximo número sequencial
+        const button_ = document.createElement('button');
+       const label = document.createElement('label');
+        const userImage = document.createElement('img');
+        const li = document.createElement("ul");
+        userImage.src = `../src/Calendario.png`
+        var  data = Data_evento.split('/');
+          var ano = data[2] ;
+          var mês= data[1] ;
+          var dia= data[0];
+   
+          var  data_ = Data_certa.split('/');
+          var ano_ = data_[2] ;
+          var mês_= data_[1] ;
+          var dia_= data_[0];
+          var mais= Number(dia_) + Number(`01`) 
+          var diaFormatado = String(mais).padStart(2, '0');
+
+          var amanha= `${diaFormatado}/${mês_}/${ano_}`
+             
+        if(ano<ano_) {
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        } 
+        if(ano == ano_) {
+         if(mês< mês_) {
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        }
+    }
+   
+    if( ano == ano_) {
+        if(mês == mês_) {
+        if(dia < dia_){
+            li.id='li_'
+             button_.id = 'ver_ag_1'
+              userImage.id = 'ul_img'
+        }
+    }
+    }
+
+    var lixo = document.createElement('button');
+    var Editar = document.createElement('button');
+         if(dados.Data_evento === Data_certa) {
+             li.id='li'
+             button_.id = 'ver_ag_'
+              userImage.id = 'ul_img'
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+            lixo.id= 'lixo';
+           Editar.id='editar_id';
+            lixo.className = 'fa-solid fa-trash'
+                Editar.className = 'fa-solid fa-pen'
+            } else if(dados.Data_evento == amanha ) {
+            li.id='li_A'
+             button_.id = 'ver_ag_'
+              userImage.id = 'ul_img'
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+            lixo.id= 'lixo';
+           Editar.id='editar_id';
+            lixo.className = 'fa-solid fa-trash'
+                Editar.className = 'fa-solid fa-pen'
+        } else {
+            label.textContent = `${dados.Nome_Event}  - ${dados.Data_evento}`;
+             button_.id = 'ver_ag'
+              userImage.id = 'ul_img'
+              lixo.id= 'lixo_';
+              Editar.id='editar_id_';
+               lixo.className = 'fa-solid fa-trash'
+                   Editar.className = 'fa-solid fa-pen'
+        }
+             var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+       
+    if(email_user) {
+      
+    } else {
+        lixo.id= 'lix';
+        Editar.id='edit';
+
+    }
+        label.id = 'label_ag'
+        button_.className="fa-solid fa-eye"
+   
+        li.appendChild(userImage);
+        li.appendChild(label);
+        li.appendChild(lixo);
+        li.appendChild(Editar);
+        li.appendChild(button_);
+     
+        MemListDiv.appendChild(li);
+        var N_itens= document.getElementById('lbl_msm_list');
+        N_itens.innerHTML= itens
+        document.getElementById('lbl_msm_list').value= itens
+        userImage.addEventListener('click', function(){
+            window.open(user.Foto,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+        });
+      
+        lixo.addEventListener('click',function(){
+         window.Swal.fire({
+             title: `Excluir!`,
+             text: `Deseja mesmo excluir permanentemente o agendamento: ${dados.Nome_Event}, data: ${dados.Data_evento}`,
+             icon: '',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sim, Deletar !',
+             cancelButtonText: 'Não, cancelar'
+         }).then((result) => {
+         
+             if (result.isConfirmed) {
+                
+                var dbs = firebase.firestore();
+               dbs.collection(`Agenda_${email_user}`).doc(doc.id).delete();
+        
+          setTimeout(function(){
+           window.Swal.fire(`Sucesso!`,`O Agendamento foi deletado`,'success')
+             lista_agendada()
+             
+         },2000)
+               
+        }
+        })       
+     });
+        button_.addEventListener('click',function(){
+            
+            window.Swal.fire({
+                title: `Ver mais?`,
+                text: `Ver dados do agendamento: ${dados.Nome_Event},  data: ${dados.Data_evento}`,
+                icon: '',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, Ver !',
+                cancelButtonText: 'Não, cancelar'
+            }).then((result) => {
+            
+                if (result.isConfirmed) {          
+            
+             //  Swal.fire(`Suceddo`,`${dados.Nome_Event},  data: ${dados.Data_evento}`,'success')    
+            var doc_id= doc.id
+            document.getElementById('input_pesq').value= ''
+            var btn = document.querySelector('.btn_ver_agenda');
+            var btn_2 = document.querySelector('.btn_agendar');
+            var btn_3 = document.querySelector('.btn_editar');
+            var resp_bt_05= localStorage.getItem('BT_05')
+        
+            document.getElementById('over').style.display= 'none'
+            document.getElementById('calendário_MSM_list').style.display= 'block'
+            document.getElementById('btn_MSM_list').style.display= 'block'
+            document.getElementById('div_inicial').style.display= 'none'
+            document.getElementById('div_lista_evento').style.display= 'none'
+            document.getElementById('div_most').style.display= 'block'              
+           localStorage.setItem('BT_05', 'setado')
+           localStorage.setItem('BT_04', '')
+           localStorage.setItem('BT_03', '')
+           btn_3.innerHTML= ' Voltar'
+           btn_2.innerHTML= 'Agendar Evento'
+           btn.innerHTML= 'Ver Agenda'
+            const MostDiv = document.getElementById('lista_most');
+         MostDiv.innerHTML= ''
+    
+           const firebaseConfigure = {
+            apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+            authDomain: "game-dbv.firebaseapp.com",
+            projectId: "game-dbv",
+            storageBucket: "game-dbv.appspot.com",
+            messagingSenderId: "118219151865",
+            appId: "1:118219151865:web:b6414d5255233264268528",
+            measurementId: "G-K17DLDBYGR"
+          };
+                  // Initialize Firebase
+              firebase.initializeApp(firebaseConfigure);
+              const dbmos = firebase.firestore();
+        
+         const produtosRef = dbmos.collection(`Agenda_${email_user}`);
+      
+          produtosRef.get(doc.id).then((querySnapshot) => {
+          querySnapshot.forEach(doc => {
+           // localStorage.setItem('docs_list_agenda', doc.data())
+                     
+       var dados = doc.data();
+       if( doc_id == doc.id) {
+
+ 
+       const itens =  querySnapshot.size; // Número de documentos na coleção
+      // const newDocNumber = count + 1; // Próximo número sequencial
+      
+        const Data_evento = dados.Data_evento
+        const userImage= document.createElement('img')
+        const btn_most= document.createElement('butoon')
+        const label_most= document.createElement('label')
+        const label_most_1= document.createElement('h3')
+        const label_most_2=  document.createElement('label')
+        const label_most_3= document.createElement('label')
+        const label_most_4=  document.createElement('label')
+        const label_most_5=  document.createElement('label')
+        const label_most_6= document.createElement('label')
+        const label_most_7=  document.createElement('label')
+        const div = document.createElement("div");
+        const br= document.createElement("br");
+        const br1= document.createElement("br");
+        const br2= document.createElement("br");
+        const br3= document.createElement("br");
+        const br4= document.createElement("br");
+        const br5= document.createElement("br");
+        const br6= document.createElement("br");
+        const br7= document.createElement("br");
+        const br8= document.createElement("br");
+        const btn_most1= document.createElement('butoon')
+        const btn_most2= document.createElement('butoon')
+
+        label_most.textContent= `Evento: ${dados.Nome_Event} ______________________________________________________Data: ${dados.Data_evento}.`
+      
+         label_most_1.textContent= `Local do Evento, data e horários.`
+          label_most_2.textContent= `Rua: ${dados.Rua}, Nº ${dados.Número}.`
+           label_most_3.textContent= `Bairro: ${dados.Bairro} .`
+            label_most_4.textContent= `Cidade: ${dados.Cidade},`
+             label_most_5.textContent= `Horário de Inicio: ${dados.Horas_inicio} H, _____________ Tempo de Tolerância : ${dados.Horas_tolerancia} minutos.`
+              label_most_6.textContent= `Horário de Termino: ${dados.Horas_termino} H.`
+                label_most_7.textContent= `Ref: ${dados.Ref}`
+                btn_most.textContent= 'X'
+                btn_most1.textContent= ''
+                 btn_most2.textContent= 'OBS:'
+                                  
+        userImage.src= '../src/Calendario.png'
+        userImage.id= 'img_most';
+        label_most.id= 'label_most'
+        label_most_1.id= 'label_most_1'
+        label_most_2.id= 'label_most_2'
+        label_most_3.id= 'label_most_2'
+        label_most_4.id= 'label_most_2'
+        label_most_5.id= 'label_most_2'
+        label_most_6.id= 'label_most_2'
+        label_most_7.id= 'label_most_2'
+        btn_most.id= 'btn_most'
+        btn_most1.id= 'btn_most'
+        btn_most2.id= 'obs'
+        div.id= 'div'
+
+        div.appendChild(btn_most);
+        div.appendChild(label_most_1);
+        div.appendChild(userImage);
+        div.appendChild(label_most);
+        div.appendChild(br);
+        div.appendChild(br1);
+        div.appendChild(label_most_2);
+        div.appendChild(br2);
+        div.appendChild(label_most_3);
+        div.appendChild(br3);
+        div.appendChild(label_most_4);
+        div.appendChild(br4);
+        div.appendChild(label_most_5);
+        div.appendChild(br5);
+        div.appendChild(label_most_6);
+        div.appendChild(br6);
+        div.appendChild(label_most_7);
+        div.appendChild(br7);
+        div.appendChild(br8);
+        div.appendChild(btn_most1);
+        div.appendChild(btn_most2);
+          
+        MostDiv.appendChild(div);
+     
+       var N_itens= document.getElementById('lbl_msm_list');
+       N_itens.innerHTML= itens 
+       document.getElementById('lbl_msm_list').value= itens
+      
+        userImage.addEventListener('click', function(){
+            window.open(user.Foto,'Imagem','icon=src/Profile-PNG-Images.png, height=730,width=730,autoHideMenuBar=true');
+        });
+   
+        btn_most.addEventListener('click', function (){
+            
+            if(div.id == 'div' ){        
+                div.id='div_mos';
+                 btn_most.id= 'btn_most'
+                  btn_most.textContent= ''
+                  btn_most.className= 'fa-solid fa-check'
+                    btn_most.style.color= 'aliceblue'
+              //    btn_most1.id= 'btn_most_delete'
+              
+              var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+              if(email_user) { 
+                btn_most1.className="fa-solid fa-trash"  
+                btn_most1.style.color= 'aliceblue'
+                btn_most1.style.fontSize='20px'
+                  
+              } else {
+                 btn_most1.textContent= 'Ocultar'
+                 btn_most1.style.color='aliceblue'
+                 btn_most1.className=""                  
+              }
+
+                  btn_most1.addEventListener('click', function(){
+           
+                    var email_user=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_user= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil')
+
+               if(email_user) {
+
+               window.Swal.fire({
+             title: `Excluir!`,
+             text: `Deseja mesmo excluir permanentemente o agendamento: ${dados.Nome_Event}, data: ${dados.Data_evento}`,
+             icon: '',
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Sim, Deletar !',
+             cancelButtonText: 'Não, cancelar'
+         }).then((result) => {
+         
+             if (result.isConfirmed) {
+                
+                var dbs = firebase.firestore();
+               dbs.collection(`Agenda_${email_user}`).doc(doc.id).delete();
+        
+          setTimeout(function(){
+            window.Swal.fire(`Sucesso!`,`O Agendamento foi deletado`,'success')
+           
+             ver_most('click') 
+         },1000)
+               
+        }
+        })       
+        
+               } else {
+              div.style.display='none'        
+           }
+
+         })          
+            } else {
+                div.id='div';
+                 btn_most.id= 'btn_most_'
+                   btn_most.textContent= 'X'
+                      btn_most.className= ''
+                       btn_most1.textContent= ''
+                       btn_most1.className=""  
+                         btn_most.style.color= 'red'
+            }
+        });
+        btn_most2.addEventListener('click', function(){
+            if(!dados.Obs || dados.Obs == '' ) {
+                Swal.fire('',`Não há observaçõs sobre este evento!`,'warning')
+            } else {
+                Swal.fire('Observações:',`${dados.Obs}`,'')
+            }
+        })
+    
+    } else {
+       
+     }
+
+    })
+  })       
+        }
+    })
+            
+ })
+
+      Editar.addEventListener('click',function(){
+            
+        window.Swal.fire({
+            title: `Editar!`,
+            text: `Editar informações de: ${dados.Nome_Event},  data: ${dados.Data_evento}`,
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, Editar !',
+            cancelButtonText: 'Não, cancelar'
+        }).then((result) => {
+        
+            if (result.isConfirmed) {
+                Agendar_evento()
+                var datado= dados.Data_evento;
+              var  datado_ = datado.split('/');
+              var textoda= datado_[2] + '-' + datado_[1] + '-' + datado_[0];
+                document.getElementById('nome_evento').value= dados.Nome_Event
+                document.getElementById('rua').value= dados.Rua
+                document.getElementById('numero').value= dados.Número
+                document.getElementById('bairro').value= dados.Bairro
+                document.getElementById('cidade').value= dados.Cidade
+                document.getElementById('referencia').value= dados.Ref
+                document.getElementById('tel_contato').value= dados.Tel;
+                document.getElementById('horas_inicio').value= dados.Horas_inicio
+                document.getElementById('horas_tolerancia').value= dados.Horas_tolerancia
+                document.getElementById('horas_termino').value= dados.Horas_termino
+                document.getElementById('Input_data').value= textoda
+                 document.getElementById('inpt_obs').value= dados.Obs
+    }
+        })
+    });
+    setTimeout(function(){
+            Swal.fire('Data Encontrada','Confira os eventos para essa data!','success')
+
+        },1100)
+   } else {
+       //alert(position)
+     if(!position ) {  
+        setTimeout(function(){
+            Swal.fire('Data não Encontrada','Não encontramos eventos para essa data!','error')
+
+        },1000)
+  
+  } else {
+ 
+} 
+      
+   }
+} 
+
+ })    
+    })      
+  }
+     </script>
+      <script>
+                           
+             var Data_certa= localStorage.getItem('data')
+             var Hora_certa= localStorage.getItem('hora')
+
+             function start() {
+               
+                var nome_Event = document.getElementById('nome_evento').value;
+                var data_do_evento = document.getElementById('Input_data').value;
+                var rua = document.getElementById('rua').value;
+                var numero = document.getElementById('numero').value;
+                var bairro = document.getElementById('bairro').value;
+                var cidade = document.getElementById('cidade').value;
+                var referencia = document.getElementById('referencia').value;
+                var horas_inicio = document.getElementById('horas_inicio').value;
+                var horas_tolerancia = document.getElementById('horas_tolerancia').value;
+                var horas_termino = document.getElementById('horas_termino').value;
+                var tel_contato = document.getElementById('tel_contato').value;
+                var obs_= document.getElementById('inpt_obs').value;
+                var  data = data_do_evento.split('-');
+                var textodata = data[2] + '/' + data[1] + '/' + data[0];
+                if(Data_certa == textodata) {
+                 
+                }
+                
+                if(!nome_Event ||nome_Event == ''||!data_do_evento ||data_do_evento == ''||!rua || rua == ''||!numero ||numero == '' ||!bairro ||bairro == '' ||!cidade ||cidade == '' ||!horas_inicio ||horas_inicio == '' ||!horas_termino ||horas_termino == '') {
+
+                    Swal.fire('Atenção!', 'Preencha todos os campos que não forem opcionais.', 'error')
+
+                } else {
+                     var email_user=  localStorage.getItem('login');
+                     var password= localStorage.getItem('password');
+                     var nome_user= localStorage.getItem('nome_login');
+                     var Foto_perfil= localStorage.getItem('Foto_perfil')
+
+                showConfirm('click')
+            function showConfirm() {
+            window.Swal.fire({
+                title: `Evento: ${nome_Event}!`,
+                text: `Data: ${textodata}, __ Local= Rua: ${rua}, Nº ${numero}, _ Bairro: ${bairro}, Cidade: ${cidade}, - Ref: ${referencia}
+                  __ Horário de inicio: ${horas_inicio} - Tolerancia: ${horas_tolerancia} minutos, - Horário de termino: ${horas_termino}, __ Contato: ${tel_contato} . `,
+                icon: '',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, Agendar !',
+                cancelButtonText: 'Não, cancelar'
+            }).then((result) => {
+               
+                if (result.isConfirmed) {
+                    document.getElementById('myProgress').style.display = 'block'
+                var i = 0;
+                if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var width = 1;
+                var id = setInterval(frame, 70);
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                        //Link firebase                       
+                       var data= localStorage.getItem('data');
+                       var hora= localStorage.getItem('hora');
+
+                  const firebaseConfigs = {
+                   apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+                   authDomain: "game-dbv.firebaseapp.com",
+                   projectId: "game-dbv",
+                   storageBucket: "game-dbv.appspot.com",
+                   messagingSenderId: "118219151865",
+                   appId: "1:118219151865:web:b6414d5255233264268528",
+                   measurementId: "G-K17DLDBYGR"
+                 };
+                                // Initialize Firebase
+                            firebase.initializeApp(firebaseConfigs);
+                                var db = firebase.firestore()
+                        
+                                db.collection(`Agenda_${email_user}`).doc(`${nome_Event}, ${data_do_evento}`).set({
+
+                                Nome_Event: nome_Event,
+                                Data_evento: textodata,
+                                Rua: rua,
+                                Número:numero,
+                                Bairro: bairro,
+                                Cidade: cidade,
+                                Ref: referencia,
+                                Tel: tel_contato,
+                                Horas_inicio: horas_inicio,
+                                Horas_tolerancia: horas_tolerancia,
+                                Horas_termino: horas_termino,
+                                Hora_edição: hora,
+                                Data_edição: data,
+                                Obs: obs_,
+                     
+                            })
+                    
+                         document.getElementById('myProgress').style.display = 'none'
+                         window.swal(`Sucesso!`,`${nome_Event} Está agendado.`,'success')       
+
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                        elem.innerHTML = width + "%"; // Atualiza o texto do rótulo
+                    }
+                }
+            }
+               setTimeout( function(){
+                Limpar() 
+
+                    },2000)
+                }
+             })
+          } 
+         }
+             }
+      </script>
+
+      <script>
+        function Limpar_() {
+            document.getElementById('nome_evento').value=''
+                document.getElementById('Input_data').value=''
+                document.getElementById('rua').value=''
+                document.getElementById('numero').value=''
+                document.getElementById('bairro').value=''
+                document.getElementById('cidade').value=''
+                document.getElementById('referencia').value=''
+                document.getElementById('horas_inicio').value=''
+                document.getElementById('horas_tolerancia').value=''
+                document.getElementById('horas_termino').value=''
+                 document.getElementById('tel_contato').value= ''
+                 document.getElementById('inpt_obs').value=''
+                localStorage.setItem('BT_02', '')
+                 localStorage.setItem('BT_01', '')
+                document.getElementById('emoji-container').style.display= 'none'
+                document.getElementById('emoji-container2').style.display= 'none'
+                localStorage.setItem('Emoji_1', '')
+                localStorage.setItem('Emoji_2', '')
+        };
+        function Limpar() {
+            document.getElementById('nome_evento').value=''
+                document.getElementById('Input_data').value=''
+                document.getElementById('rua').value=''
+                document.getElementById('numero').value=''
+                document.getElementById('bairro').value=''
+                document.getElementById('cidade').value=''
+                document.getElementById('referencia').value=''
+                document.getElementById('horas_inicio').value=''
+                document.getElementById('horas_tolerancia').value=''
+                document.getElementById('horas_termino').value=''
+                document.getElementById('display_horarios').style.display= 'none'
+                 document.getElementById('div_none_1').style.display= 'none'
+                 document.getElementById('tel_contato').value=''
+                 document.getElementById('inpt_obs').value=''
+                 localStorage.setItem('BT_02', '')
+                 localStorage.setItem('BT_01', '')
+                document.getElementById('emoji-container').style.display= 'none'
+                document.getElementById('emoji-container2').style.display= 'none'     
+                localStorage.setItem('Emoji_1', '')
+                localStorage.setItem('Emoji_2', '')
+        }
+      </script>
+    <script>
+        document.getElementById('emoji-picker').addEventListener('click', event => {
+            
+    const input = document.getElementById('nome_evento');
+    input.value += event.detail.unicode;
+});
+ 
+    </script>
+   
+     <script>
+     // 
+        const emojiContainer = document.getElementById('emoji-container');
+        // Exemplo de emojis
+        const emojis = ['🙏','😊','😎','😏', '😘','🥰','😇','❤️','💔','🤗','👊','💪','😭','😢','😡','😤','😮','😓','😩','😴','🤫','🤐','🤑','😱','🥳','🎂','🎁','💯','💋','🎈','🎉','❤️‍🔥','⚠️','👋','🤝','👌','👏','🙌','🙋‍♂️','🙋‍♀️','🤦‍♂️','🤦‍♀️','🙇‍♂️','🙇‍♀️','🤷‍♂️','🤷‍♀️','📅','🗓️','⏰','⌚','⏱️','🌝','🌞','🌡️','🌥️','🌦️','🌧️','🌩️','☔', '🌟', '🚀', '🍕', '🌈',];
+
+        emojis.forEach(emoji => {
+            const span = document.createElement('span');
+            span.textContent = emoji;
+            emojiContainer.appendChild(span);
+            span.addEventListener('click',function(){
+                
+                const input = document.getElementById('nome_evento');
+                input.value += span.textContent
+                document.getElementById('nome_evento').focus
+            })
+         
+        });
+   // }
+   const emojiContainer2 = document.getElementById('emoji-container2');
+
+// Exemplo de emojis
+const emojis2 = ['🙏','😊','😎','😏', '😘','🥰','😇','❤️','💔','🤗','👊','💪','😭','😢','😡','😤','😮','😓','😩','😴','🤫','🤐','🤑','😱','🥳','🎂','🎁','💯','💋','🎈','🎉','❤️‍🔥','⚠️','👋','🤝','👌','👏','🙌','🙋‍♂️','🙋‍♀️','🤦‍♂️','🤦‍♀️','🙇‍♂️','🙇‍♀️','🤷‍♂️','🤷‍♀️','📅','🗓️','⏰','⌚','⏱️','🌝','🌞','🌡️','🌥️','🌦️','🌧️','🌩️','☔', '🌟', '🚀', '🍕', '🌈',];
+
+emojis2.forEach(emoji => {
+    const span2 = document.createElement('span');
+    span2.textContent = emoji;
+    emojiContainer2.appendChild(span2);
+    span2.addEventListener('click',function(){
+        
+        const input = document.getElementById('inpt_obs');
+        input.value += span2.textContent
+        document.getElementById('inpt_obs').focus
+    })
+});
+     function div_evento() {
+         document.getElementById('emoji-container').style.display= 'none'
+            document.getElementById('emoji-container2').style.display= 'none'  
+     }
+    </script>
+     <script>
+        document.getElementById('emoji-container').style.display= 'none'
+     document.getElementById('emoji-container2').style.display= 'none'
+
+         localStorage.setItem('Emoji_1', '')
+        function ver_emojis_1() {
+            var play_emoji= localStorage.getItem('Emoji_1')
+          if(play_emoji == '') {
+          document.getElementById('emoji-container').style.display= 'block'
+           var play_emoji= localStorage.setItem('Emoji_1', 'emoji')
+        } else {
+          document.getElementById('emoji-container').style.display= 'none'
+           var play_emoji=  localStorage.setItem('Emoji_1', '')
+        }
+      };
+         localStorage.setItem('Emoji_2', '')
+        function ver_emojis_2() {
+            var play_emoji_2= localStorage.getItem('Emoji_2')
+          if(play_emoji_2 == '') {
+          document.getElementById('emoji-container2').style.display= 'block'
+           var play_emoji_2= localStorage.setItem('Emoji_2', 'emoji')
+        } else {
+          document.getElementById('emoji-container2').style.display= 'none'
+           var play_emoji_2=  localStorage.setItem('Emoji_2', '')
+        }
+      };
+  </script>
+
+    <script>
+           setInterval(function() {
+           
+    const newDate = new Date()
+    var dia = String(newDate.getDate()).padStart(2, '0');
+    var mes = String(newDate.getMonth() + 1).padStart(2, '0');
+    var ano = String(newDate.getFullYear()).padStart(2, '0')
+    var data = `${dia}/${mes}/${ano}`
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+   // const lbl_data = document.getElementById('lbl-data');
+   
+    // lbl_data.innerHTML = `${data}`
+ 
+    localStorage.setItem('data', data)
+    localStorage.setItem('hora', timeString)
+   var Horario = document.getElementById('lbl_time')
+   Horario.innerHTML= timeString
+
+}, 1000)
+    </script>
+</body>
+</html>

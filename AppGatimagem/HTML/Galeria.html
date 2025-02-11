@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatimagem</title>
+    <link rel="shortcut icon" href="../src/srcGatimagem.png.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/60de48ee9a.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+          
+           
+        }
+        #div_geral {
+            width: 100%;
+            height: 98vh;
+            background-color: rgb(255, 255, 255); 
+            display: none;  
+          
+        }
+        #div_head {
+            width: 100%;
+            display: flex;
+            height: '10vh';
+            background-color: #60039900;
+            justify-content: space-around;
+            align-items: center;
+            overflow: auto; 
+        }
+        #div_footer {
+            display: flex;
+            width: 100%;
+            height: 7vh;
+            background-color: rgba(137, 43, 226, 0);
+            justify-content: space-around;
+            align-items: center;
+        }
+        #div_body {
+            width: 100%;
+            height: 82vh;
+            box-sizing: border-box;
+            overflow: scroll;
+        }
+        #imagens {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;  
+            
+        }
+        ul {
+            width: 100px;
+            padding: 10px;
+            margin-left: 10px;
+            border: 5px solid rgba(82, 81, 79, 0);
+            cursor: pointer;
+            margin-left: 20px;
+        }
+        #div_imagem {
+            margin: 0 auto;
+            width: 95%;
+            border: 5px solid rgba(94, 92, 92, 0);
+            border-radius: 20px;
+            background-color: rgba(137, 43, 226, 0);
+            overflow: scroll; 
+        
+        }
+        #div_list {
+            display: flex;
+            flex-wrap: wrap;
+            width: 98%;
+            text-align: center;
+        }
+        #div_list img {
+            width: 130px;
+            height: 130px;
+            border: 3px solid rgb(98, 90, 98);
+            cursor: pointer;
+            padding: 3px;
+            background-color: rgb(241, 238, 238);
+            border-radius: 10px;
+        }
+        #div_list img:hover {
+            background-color: rgb(16, 216, 238);
+            border: 3px solid red;
+        }
+        ::-webkit-scrollbar {
+            width: 2px;
+            margin-left: 5px;
+            margin-top: 5px;
+            /* Largura da barra de rolagem */
+            cursor: pointer;
+        }
+         ::-webkit-scrollbar-thumb {
+            margin-left: 5px;
+            background-color: rgba(128, 4, 120, 0.598);
+            /* Cor do polegar da barra de rolagem */
+            margin-top: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+         :-webkit-scrollbar-track {
+            /* Cor da trilha da barra de rolagem */
+            margin-top: 5px;
+            border-radius: 7 rgb(177, 175, 175);
+            background-color: rgba(38, 39, 39, 0);
+            border-radius: 5px;
+            cursor: pointer;
+         }
+         #label {
+            font-size: 13px;
+            color: rgb(255, 255, 255);
+             width: 370px;
+             height: 20px;
+             cursor: pointer;
+         }
+         #lista_label label:hover,#div_head  #lista_02 ul:hover {
+            color: rgb(158, 3, 3);
+            background-color: rgb(7, 203, 243);
+         }
+         #lista_02 {
+            display: flex; 
+            justify-content: space-around;
+            align-items: center; 
+         }
+        #lista_label {
+            width: 250px;
+            display: flex;
+            border: 0cap;
+            background-color: rgba(107, 5, 125, 0.917);
+            cursor: pointer;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 3px;
+            margin-right: 10px;
+            color: rgb(255, 255, 255);
+         }
+        #excluir {
+            margin-right: 10px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: rgba(240, 248, 255, 0);
+            border: 1px solid rgba(100, 3, 3, 0);
+            color: rgb(255, 255, 255);
+         }
+         #div_head #excluir:hover {   
+            color: rgb(248, 5, 9);
+         }
+         #div_footer {
+            background-color: black;
+            color: aliceblue;
+            height: 6vh;
+            bottom: 2px;
+            position: fixed;
+         }
+         #div_footer label {
+            font-size: 13px;
+            cursor: pointer;
+         }
+         #lb5 {
+            font-size:25px;
+            cursor: pointer;
+         }
+         #div_footer label:hover {
+            color: rgb(5, 250, 50);
+         }
+   
+         #div_login {
+            padding: 10px;
+         }
+         #div_acesso {
+            margin: 0 auto;
+            width: 50%;
+            background-color: rgba(240, 248, 255, 0);
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 10px;
+            margin-top: 5%;
+            border-radius: 20px;
+            border: 5px solid rgba(245, 245, 220, 0);
+         }
+         #div_acesso input {
+            width: 350px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: rgba(1, 9, 24, 0.978);
+            color: rgb(255, 254, 254);
+            border: 2px solid rgb(60, 17, 17);
+            border-radius: 10px;
+            margin-right: 10px;
+            border: 0cap;
+            font-size: 16px;
+            
+         }
+         #input {
+            margin: 0 auto;
+            padding: 7px;
+            background-color: #600399f3;
+            width: 450px;
+            border-radius: 20px;
+           
+         }
+         #div_cad {
+            display: none;
+            padding: 10px;
+         }
+         #lbl_X_V {
+            color: aliceblue;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+         }
+         #div_acesso button {
+            width: 160px;
+            padding: 10px;
+            border: 2px solid rgb(255, 252, 252);
+            cursor: pointer;
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 252, 252);
+            margin-right: 20px;
+            border-radius: 10px;
+            margin-left: 20px;
+         }
+         #div_acesso button:hover {
+            background-color: #600399f3;
+            color: rgb(255, 255, 255);
+         }
+         #favi_01 {
+            font-size: 22px;
+         }
+         #h2_login{
+            margin-bottom: 30px;
+         }
+      
+         #option {
+            background-color: red;
+            cursor: pointer;
+         }
+         #color {
+            width: 250px;
+            display: flex;
+            border: 0cap;
+            background-color: rgb(7, 213, 236);
+            color: red;
+            cursor: pointer;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 3px;
+            margin-right: 10px;
+      
+         }
+         #h1_texto {
+            padding: 7px;
+            border: 0px solid rgb(255, 255, 252);
+            border-radius: 5px;
+            font-size: 14px;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color:rgba(107, 5, 125, 0.917);
+           
+         }
+       #div_footer {
+        max-width: 100%;
+        overflow-y: auto;
+       }
+       #div_footer  #lbl_09 {
+        font-size: 20px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+       }
+       #div_foter_menu {
+        display: none;
+          width: 200px;
+          padding: 10px;
+          background-color: black;
+          color: aliceblue;
+          flex-wrap: wrap;
+          float: right;
+          position: fixed;
+          bottom: 20px;
+          text-align: center;
+          padding-bottom: 50px;
+          padding-top: 20px;
+          
+       }
+       #img_menu {
+        width: 64px;
+        height: 64px;
+        border: 2px solid beige;
+        background-color: aqua;
+        padding: 2px;
+        border-radius: 50%;
+        cursor: pointer;
+       }
+       #img_menu:hover {
+        background-color: rgb(47, 248, 7);
+        padding: 2px;
+        border: 2px solid rgb(253, 6, 129);
+       }
+
+        #lbl_footer_menu1, #lbl_footer_menu2, #lbl_footer_menu3, #lbl_footer_menu4,#lbl_footer_menu5 {
+            font-family: Arial, Helvetica, sans-serif;
+        width: 200px;
+        padding: 10px;
+        font-size: 13px;
+        border: 0ch;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+      
+        
+       }
+       #lbl_footer_menu1:hover, #lbl_footer_menu2:hover, #lbl_footer_menu3:hover, #lbl_footer_menu4:hover, #lbl_footer_menu5:hover {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: rgb(22, 224, 3);
+        color: rgb(86, 4, 102);
+        padding-left: 40px;
+        padding-right: 40px;
+        font-weight: bold;
+   
+       
+       }
+       #lbl_menu_nome, #lbl_menu_email {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+       }
+       #div_hora_menu {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        margin-bottom: 30px;
+       }
+       #lbl_09 {
+     
+        font-weight: bold;
+        color: rgb(73, 245, 5);
+        padding: 5px;
+        padding-left: 40px;
+        padding-right: 40px;
+        border: 1px solid rgba(245, 245, 220, 0.356);
+        border-radius: 5px;
+       }
+      #div_login #btn_recuperação {
+        margin-top: 50px;
+        margin-bottom: 20px;
+        width: 60%;
+        font-size: 13px;
+        border: 0cap ;
+        cursor: pointer;
+        text-decoration: underline 2px solid rgba(255, 0, 0, 0.507);
+        padding-bottom: 10px;
+       }
+       #div_login #btn_recuperação:hover {
+        color: rgb(93, 243, 7);
+        background-color: rgba(0, 255, 255, 0);
+        text-decoration: underline 2px solid rgba(255, 254, 254, 0.507);
+       }
+         
+    </style>
+</head>
+<body>
+  
+    <div id="div_acesso">
+        <div id="div_login">
+        <h2 id="h2_login"> Login <i id="favi_01" class="fa-solid fa-user"></i></h2>
+    
+        </label>
+        <label for=""> Email<br>
+            <div id="input">
+            <input id="input_email" type="email" placeholder="Digite email..."> <label id="lbl_X_V" onclick="limpar01()" for="">X</label>
+        </div>
+        </label>
+        <br><br>
+        <label for="">Senha <br>
+            <div id="input">
+            <input id="input_senha" type="password" placeholder="Digite senha..."><label id="lbl_X_V" onclick="limpar02()" for="">X</label> <label id="lbl_X_V" onclick="ver02()" for=""><i id="ver01" class="fa-solid fa-eye-low-vision"></i></label>
+        </div>
+        </label>
+        <br><br>
+        <button  onclick="Start()" title="Start">Start</button>
+        <button  onclick="Cad()" title="Cadastre-se">Cadastre-se</button> <br><br>
+        <button  id="btn_recuperação" onclick="RecSenha()" title="Reperação">Esqueci minha Senha</button>
+    </div>
+      <div id="div_cad">
+        <h2 id="h2_login">Cadastre_se <i id="favi_01" class="fa-solid fa-user-plus"></i></h2>
+
+        <label title="Nome" for="">Nome<br>
+            <div id="input">
+            <input id="input_nome_cad" type="text" placeholder="Digite nome..."> <label id="lbl_X_V" onclick="limpar06()" for="">X</label>
+        </div>
+        </label>
+        <br>
+        <label for="">Email <br>
+            <div id="input">
+            <input id="input_email_cad" type="email" placeholder="Digite email..."> <label id="lbl_X_V" onclick="limpar03()" for="">X</label> 
+        </div>
+        </label>
+        <br><br>
+        <label for="">Senha<br>
+            <div id="input">
+            <input id="input_senha_cad" type="password" placeholder="Digite senha..."><label id="lbl_X_V"  onclick="limpar04()" for="">X</label> <label id="lbl_X_V" onclick="ver04()" for=""><i id="ver02" class="fa-solid fa-eye-low-vision"></i></label>
+        </div>
+        </label>
+        <br><br>
+        <label for="">Confirme senha<br>
+            <div id="input">
+            <input id="input_senha_cad_2" type="password" placeholder="Confirme senha..."><label id="lbl_X_V" onclick="limpar05()" for="">X</label> <label id="lbl_X_V" onclick="ver05()" for=""><i id="ver03" class="fa-solid fa-eye-low-vision"></i></label>
+        </div>
+        </label>
+        <br><br>
+        <button  onclick="Start_cad()" title="Cadastrar">Start</button>
+        <button  onclick="Retur_login()" title="Retornar">Retornar ao Login</button>
+      </div>
+    </div>
+    <div id="div_geral">
+        
+        <div id="div_head">
+           
+            <div id="lista_02"></div>
+        </div>
+        <div id="div_body">
+
+            <div id="div_imagem">
+                <div id="div_list">
+
+                </div> 
+        </div>
+    
+    </div>
+    <div id="div_foter_menu">
+        <div id="div_hora_menu">
+            <label id="lbl_09" for="" title="Hora certa!" onclick="btn()">label_</label>
+        </div>
+         
+        <img id="img_menu" src="../src/Profile-PNG-Images.png" alt="" onclick="img_menu()">
+        <br><br>
+        <label id="lbl_menu_nome" for="">Nome</label>
+        <br>
+        <label id="lbl_menu_email" for="">Email</label>
+        <br> <br>
+        <h2>Menu</h2>
+        <label id="lbl_footer_menu1" for="" onclick="caoa_galeria()">Capa Galeria</label><br> <br><br>
+        <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia</label><br><br><br>
+        <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda</label><br><br><br>
+        <label id="lbl_footer_menu4" for=""></label><br><br><br>
+        <label id="lbl_footer_menu5" for="" onclick="Sair_menu()">Exit</label><br><br><br>
+    </div>
+   
+        <div id="div_footer">
+            <label id="lbl_08" for="" onclick="Menu_footer()"><i id="lb5" class="fa-solid fa-bars"></i> Menu</label>
+            <label id="lbl_05" for="" onclick="add_imagem()"><i id="lb5" class="fa-solid fa-image"></i> +Imagem </label>
+            <label id="lbl_06" for="" onclick="ex_list()"><i id="lb5"  class="fa-solid fa-list"></i> Exit Lista</label>
+           <h1 id="h1_texto"> Lista</h1>
+            
+        </div>
+    </div>
+    <script>
+
+
+            function Agendar(){
+                window.open('../HTML/Agenda.html','_blank', "icon=src/Profile-PNG-Images.png, width=1100, height=730 resizable= false, autoHideMenuBar= true")
+
+            };
+
+                function img_menu() {
+                    var login=  localStorage.getItem('login');
+                var password= localStorage.getItem('password');
+                var nome_login= localStorage.getItem('nome_login');
+                var Foto_perfil= localStorage.getItem('Foto_perfil');
+               window.swal(`${nome_login}`,'',`${Foto_perfil}`)
+
+                }
+             var login=  localStorage.getItem('login');
+             var password= localStorage.getItem('password');
+             var nome_login= localStorage.getItem('nome_login');
+             var Foto_perfil= localStorage.getItem('Foto_perfil');
+             if(Foto_perfil) {
+                document.getElementById('img_menu').src= Foto_perfil
+             }
+
+        document.getElementById('div_foter_menu').style.display= 'none'
+        function Menu_footer() {
+         var btn_menu=  document.getElementById('div_foter_menu').style.display;
+         var LogMail = localStorage.getItem('login');
+         var LogNome = localStorage.getItem('nome_login');
+         var label_menu_nome = document.getElementById('lbl_menu_nome');
+         var label_menu_email = document.getElementById('lbl_menu_email');
+         if(!LogNome | LogNome === '') {
+          
+            label_menu_nome.innerHTML= 'User Gatimaem'
+         } else {
+             label_menu_nome.innerHTML= LogNome
+         }
+         label_menu_email.innerHTML= `${LogMail}`;
+         
+         if( btn_menu === 'none') {
+             document.getElementById('div_foter_menu').style.display= 'block'
+         } else {
+           document.getElementById('div_foter_menu').style.display= 'none'
+         }
+        };
+        function caoa_galeria() {
+            window.open('../HTML/removecapa.html','_blank', "icon=src/Profile-PNG-Images.png, width=800, height=650 resizable= false, autoHideMenuBar= true")       
+        };
+        function tela() {
+            toggleFullScreen('click') 
+
+        };
+        function Sair_menu() {
+
+            Sair('click')
+            
+        }
+
+    </script>
+    <script>
+    localStorage.setItem('reload','')   
+        setInterval(function(){
+            var reload = localStorage.getItem('reload')
+            if(!reload | reload === '') {
+
+            } else {
+               window.location.reload()
+               //var lista= document.getElementById('div_list');
+                lista.innerHTML= ''    
+                localStorage.setItem('reload','')   
+            }
+        },100)
+       function Sair(){
+        Swal.fire({
+              title: 'Escolha uma opção',
+              icon:  'warning',
+              input: 'radio',
+              inputOptions: {
+                  'Cancelar': 'Cancelar',
+                  'Reiniciar': 'Reiniciar',
+                  'Deslogar': 'Deslogar, Sair',
+                  
+              },
+              inputValidator: (value) => {
+                  if (!value) {
+                      return 'Você precisa escolher uma opção!'
+                  }
+              }
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  if(result.value == 'Deslogar') {
+                    Deslogar('click')
+
+                  }   else if(result.value == 'Reiniciar') {
+                    window.location.reload()
+              }
+              }}
+            )
+            }
+        
+        localStorage.setItem('pasta_', '');
+        function Deslogar() {
+            var SetLogado = localStorage.getItem('login');
+           // localStorage.setItem(`Capa_${SetLogado}`, '');
+            localStorage.setItem('password', '');
+            localStorage.setItem('nome_login','');
+            localStorage.setItem('Foto_perfil','');
+            localStorage.setItem('login', '');
+        
+            setInterval(function(){
+                window.location.reload()
+            },1000)
+            
+        };
+       
+       var SetLogado = localStorage.getItem('login');
+       var passLogado = localStorage.getItem('password');
+       
+        if(!SetLogado | SetLogado === '' | !passLogado | passLogado === '') {
+            document.getElementById('div_acesso').style.display= 'block'
+             document.getElementById('div_geral').style.display= 'none'
+           //  window.swal('Login!','Entre com seu login e senha para ter acesso!', 'error')
+        } else {
+               document.getElementById('div_acesso').style.display= 'none'
+             document.getElementById('div_geral').style.display= 'block'
+        }  const firebaseConfig = {
+            apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+            authDomain: "game-dbv.firebaseapp.com",
+            projectId: "game-dbv",
+            storageBucket: "game-dbv.appspot.com",
+            messagingSenderId: "118219151865",
+            appId: "1:118219151865:web:b6414d5255233264268528",
+            measurementId: "G-K17DLDBYGR"
+          };
+
+        firebase.initializeApp(firebaseConfig);  
+
+        
+    function Start_cad(event) {
+
+      const auth = firebase.auth();
+      var Foto_perfil= localStorage.getItem('Foto_perfil');
+      if(!Foto_perfil | Foto_perfil == ''){
+        var Foto_perfil= '../src/Profile-PNG-Images.png'
+      } 
+
+      var nome_User_cad = document.getElementById('input_nome_cad').value;
+      var email_user = document.getElementById('input_email_cad').value;
+      var senha_user = document.getElementById('input_senha_cad').value;
+      var senha_user2 = document.getElementById('input_senha_cad_2').value;
+
+      if(!email_user || !senha_user || !nome_User_cad) {
+        window.swal('Erro', 'Preencha todos os campos', 'error');
+      } else if(senha_user !== senha_user2) {
+        window.swal('Erro', 'As senhas não são iguais!', 'error');
+      } else {
+      
+              window.Swal.fire('Sucesso!', 'Cadastro realizado!', 'success');
+              const dbc = firebase.firestore();
+              dbc.collection('Users').doc(email_user).set({
+                Email: email_user,
+                Nome: nome_User_cad,
+                Senha: senha_user,
+                Foto: Foto_perfil,
+            });
+                window.Swal.fire('Sucesso!', 'Cadastro realizado!', 'success');
+
+                limparCampos();
+           
+          
+      }
+    }
+
+    function limparCampos() {
+      document.getElementById('input_nome_cad').value = '';
+      document.getElementById('input_email_cad').value = '';
+      document.getElementById('input_senha_cad').value = '';
+      document.getElementById('input_senha_cad_2').value = '';
+    }
+
+    function Start() {
+        var email= document.getElementById('input_email').value;
+        var senha= document.getElementById('input_senha').value;
+
+        if(!email | email === ''| !senha | senha === '') {
+            window,swal('Erro','Preencha todos os campos!','error')
+        } else {
+
+     
+      var  dblogin = firebase.firestore()
+        dblogin.collection('Users').doc(email).get().then(function(doc) {
+            if(doc.exists){      
+                var userSet = doc.data();
+                var login = userSet.Email;
+                var password = userSet.Senha;
+                var nome_login= userSet.Nome;
+                var foto_login= userSet.Foto;
+                if(senha === password) {
+                    localStorage.setItem('login', login);
+                    localStorage.setItem('password', password);
+                    localStorage.setItem('nome_login', nome_login);
+                    localStorage.setItem('Foto_perfil', foto_login);
+                window.swal('Sucesso!','Você está Logado no Gatimagem !', 'success')
+                setInterval(function(){
+                  window.location.reload()        
+                },1500)
+                } else {
+                    window,swal('Erro','Email ou senha não conferem!','error')
+                }
+            } else{
+                window,swal('Erro','Cadastro não encontrado!','error')
+            }
+        })}
+    }
+
+    function RecSenha() {
+        Swal.fire({
+                title: 'Insira suas informações de login',
+                html: `
+                    <input type="text" id="nome" class="swal2-input" placeholder="Nome">
+                    <input type="email" id="email" class="swal2-input" placeholder="Email">
+                `,
+                focusConfirm: false,
+                preConfirm: () => {
+                    const nome = Swal.getPopup().querySelector('#nome').value;
+                    const email = Swal.getPopup().querySelector('#email').value;
+                    if (!nome || !email) {
+                        Swal.showValidationMessage(`Por favor, preencha ambos os campos`);
+                    }
+                    return { nome: nome, email: email };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                
+                    var email = result.value.email;
+                    var nomes = result.value.nome
+
+const firebaseConfig = {
+        apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+        authDomain: "game-dbv.firebaseapp.com",
+        projectId: "game-dbv",
+        storageBucket: "game-dbv.appspot.com",
+        messagingSenderId: "118219151865",
+        appId: "1:118219151865:web:b6414d5255233264268528",
+        measurementId: "G-K17DLDBYGR"
+      };
+
+
+    firebase.initializeApp(firebaseConfig);  
+    const db = firebase.firestore();
+  
+            var SetLogado = localStorage.getItem('login');
+
+             db.collection(`Users`).doc(email).get().then(function(doc) {
+              
+                var dados = doc.data()
+              
+                if( dados.Nome == nomes) {
+ 
+
+                if(doc.id === email) {
+                    window.swal('Perfil',`Perfil referente ao email informado -\n\nNome: ${dados.Nome}\n\nSenha: ${dados.Senha}`, `${dados.Foto}`)
+                     document.getElementById('input_email').value= email
+                     document.getElementById('input_senha').value= dados.Senha
+                    Swal.fire({
+                 title: 'Escolha uma opção',
+                 icon:  'warning',
+                 input: 'radio',
+                 inputOptions: {
+                'Cancelar': 'Cancelar',
+                'logar': 'logar',
+                'Outra forma': 'Mais opções',
+            },
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Você precisa escolher uma opção!'
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                if(result.value == 'Outra forma') {
+                 
+
+                    Swal.fire({
+                 title: 'Escolha uma opção',
+                 icon:  'warning',
+                 input: 'radio',
+                 inputOptions: {
+                'Cancelar': 'Sair',
+                'Nova Senha': 'Nova Senha',
+                'Ajuda': 'Ajuda',
+            },
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Você precisa escolher uma opção!'
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                if(result.value == 'Nova Senha') {
+                    
+                    window.Swal.fire('Nova senha','Va até Cadastro\n digite  Email de sua conta no Gatimagem.\n Digite um novo Nome ou uma nova Senha e confirme.\n Click "Cadastrar"e pronto! ','Warning')
+              
+            }
+                 else if(result.value == 'Ajuda') {
+                    window.Swal.fire('Fale conosco!','No memento não disponivel','')
+                  
+                   setTimeout(function(){
+
+                    },1000)
+                }
+        }})
+                
+            }
+                 else if(result.value == 'logar') {
+                 
+                    window.Swal.fire('logando...','','')
+                   setTimeout(function(){
+                 Start('click')
+                    },2000)
+                }
+        }}
+    )
+} else {
+   // window.swal('Conta não localizada','Não há conta registrada com este email!','error')
+
+}
+     
+} else {
+    window.Swal.fire('Nome de usuário não confere!',"Verifique se você digitou o nome de usuário corretamente.",'')
+
+    setTimeout(function(){
+        document.getElementById('nome').focus();
+        document.getElementById('email').focus();
+
+    },3000)
+  
+}
+             } 
+
+            
+            )
+}
+            
+})
+    }
+
+            
+        
+            
+    
+       
+       // window.open('../HTML/RecSenha.html', '_blank', "icon= src/Profile-PNG-Images.ico, width=730, height=750,  resizable= false, autoHideMenuBar= true")
+
+    
+
+   
+    </script>
+    <script>
+
+        function Cad() {
+            document.getElementById('div_cad').style.display= 'block'
+            document.getElementById('div_login').style.display= 'none'
+        };
+        function Retur_login() {
+             document.getElementById('div_cad').style.display= 'none'
+                   document.getElementById('div_login').style.display= 'block'
+        };
+        function limpar01() {
+    document.getElementById('input_email').value= ''
+   } ;
+   function limpar02() {
+    document.getElementById('input_senha').value= ''
+   } ;
+   function limpar03() {
+    document.getElementById('input_email_cad').value= ''
+   } ;
+   function limpar04() {
+    document.getElementById('input_senha_cad').value= ''
+   };
+
+   function limpar06() {
+    document.getElementById('input_nome_cad').value= ''
+   };
+   function limpar05() {
+    document.getElementById('input_senha_cad_2').value= ''
+   } 
+         const mostrarSenha_1 = document.getElementById('ver01');
+         mostrarSenha_1.addEventListener('click', () => {
+           
+             const senha = document.getElementById('input_senha');
+             if (senha.type === 'password') {
+                 senha.type = 'text';
+             } else {
+                 senha.type = 'password';
+             }
+         });
+         const mostrarSenha_2 = document.getElementById('ver02');
+         mostrarSenha_2.addEventListener('click', () => {
+
+             const senha = document.getElementById('input_senha_cad');
+             if (senha.type === 'password') {
+                 senha.type = 'text';
+             } else {
+                 senha.type = 'password';
+             }
+         });
+         const mostrarSenha_3 = document.getElementById('ver03');
+         mostrarSenha_3.addEventListener('click', () => {
+
+             const senha = document.getElementById('input_senha_cad_2');
+             if (senha.type === 'password') {
+                 senha.type = 'text';
+         
+             } else {
+                 senha.type = 'password';
+             }
+         });
+    </script>
+    <script>
+      
+      localStorage.setItem('pasta_','')
+     // localStorage.setItem(`Capa_${SetLogado}`,'')
+        setInterval(function(){
+            Capaimage('click')
+        },200) 
+        function Capaimage() {
+            var SetLogado = localStorage.getItem('login');
+            var URL= localStorage.getItem(`Capa_${SetLogado}`);
+            if(!URL | URL == ''){     
+                localStorage.setItem(`Capa_${SetLogado}`,'../src/CapaOrigen.webp')
+            } else{
+       var geral= document.getElementById('div_geral')
+       geral.style.backgroundImage= `url(${URL})`;
+       geral.style.backgroundSize = "cover";
+            }
+    }
+    Capaimage() 
+    </script>
+   <script>
+    var menu = document.getElementById('lista_02')
+    menu.innerHTML= ''
+
+         const firebaseConfigures = {
+       apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+       authDomain: "game-dbv.firebaseapp.com",
+       projectId: "game-dbv",
+       storageBucket: "game-dbv.appspot.com",
+       messagingSenderId: "118219151865",
+       appId: "1:118219151865:web:b6414d5255233264268528",
+       measurementId: "G-K17DLDBYGR"
+     };
+
+
+        firebase.initializeApp(firebaseConfigures);  
+        const dbs = firebase.firestore();
+        // Função para buscar e exibir as imagens
+                var SetLogado = localStorage.getItem('login');
+                 dbs.collection(`ComPasta_${SetLogado}`).get().then((querySnapshot) =>{
+                  querySnapshot.forEach((doc) => {
+                    var dados = doc.data()
+                    var list = document.createElement('ul')
+                    var label = document.createElement('label')
+                    var ex = document.createElement('button')
+                    ex.id= 'excluir'
+                    list.id= 'lista_label'
+                    label.id= 'label';
+                    ex.textContent= '';
+                    ex.className= 'fa-solid fa-bars'
+                    list.className= 'item'
+                    var  Pasta_ = dados.Pasta.split('_');
+                    var resp= Pasta_[0] ;
+                    label.textContent= resp
+                    list.appendChild(label)
+                    list.appendChild(ex)
+                    menu.appendChild(list)
+                    ex.addEventListener('click', function(){
+                        
+                       
+                        Swal.fire({
+                title: 'Escolha uma opção',
+                icon:  'warning',
+                input: 'radio',
+                inputOptions: {
+                    'Cancelar': 'Cancelar',
+                    'Nova imagem': 'Nova imagem',
+                    'Excluir Pasta': 'Excluir Pasta',
+                },
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Você precisa escolher uma opção!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    if(result.value == 'Nova imagem') {
+                        localStorage.setItem('pasta_', dados.Pasta)
+                    setTimeout(function(){
+                        add_imagem('click')
+                    },1000)
+                }
+                     else if(result.value == 'Excluir Pasta') {
+                        dbs.collection(`ComPasta_${SetLogado}`).doc(doc.id).delete()
+                       setTimeout(function(){
+                            window.location.reload('HTML/Galeria.html')
+
+                        },1000)
+                    }
+            }}
+        )
+    })
+
+     label.addEventListener('click', function(){
+        localStorage.setItem('pasta_', doc.id)
+       
+        var  text =  label.textContent.split(' ');
+        var resp= text[0] ;
+        if(!text[1] | text[1] =='') {
+            var resp2= '';
+        } else {
+            var resp2= text[1] ;
+        }
+        var resposta= `${resp} ${resp2} `
+     var texto= document.getElementById('h1_texto')
+     texto.innerHTML= resposta
+
+     lista= document.getElementById('div_list');
+                    lista.innerHTML= ''
+
+         const firebaseConfigure = {
+          apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+          authDomain: "game-dbv.firebaseapp.com",
+          projectId: "game-dbv",
+          storageBucket: "game-dbv.appspot.com",
+          messagingSenderId: "118219151865",
+          appId: "1:118219151865:web:b6414d5255233264268528",
+          measurementId: "G-K17DLDBYGR"
+        };
+
+        firebase.initializeApp(firebaseConfigure);  
+        const db = firebase.firestore();
+        
+        // Função para buscar e exibir as imagens
+       db.collection(doc.id).get().then((querySnapshot) =>{
+
+            var query= querySnapshot.forEach((doc) => {
+                    var dbdados = doc.data()
+                    var label= document.createElement('label');
+                    menu.appendChild(label)
+                    var li= document.createElement('ul');
+                    var img= document.createElement('img');
+                    img.src= dbdados.Url;
+                    li.appendChild(img);
+                    lista.appendChild(li);
+
+                    li.addEventListener('click', function(){
+                      
+                        Swal.fire({
+                title: 'Escolha uma opção',
+                icon:  'warning',
+                input: 'radio',
+                inputOptions: {
+                    'Cancelar': 'Sair',
+                    'Ver': 'Ver ',
+                    'Capa': 'Capa',
+                    'Perfil': 'Perfil',
+                    'Baixar': 'Baixar',
+                    'Apagar': 'Apagar',      
+                },
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Você precisa escolher uma opção!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if(result.value == 'Ver') {
+
+                  var docText= dbdados.Pasta.split('_')
+                  var docResut = docText[0];
+
+                  var docText2= dbdados.Nome.split('_ ')
+                  var docResutNome = docText2[0];
+          
+              
+                  window.swal(`Pasta: ${docResut}`,`Nome da imagem: ${docResutNome}`,`${dbdados.Url}.jpg`)
+
+                    } else if(result.value == 'Apagar') {
+                       
+                        db.collection(dbdados.Pasta).doc(doc.id).delete();
+
+                    var img_file = firebase.storage();
+                     var mm = img_file.ref(`${doc.id}`);
+                     // Deletar o arquivo
+                     mm.delete().then(() => {
+                      // window.swal('Sucesso!','Imagem deletada do banco de dados','success')
+                     }).catch((error) => {
+                        window.swal('ERRO!','','error')
+                     });
+                    
+                        lista.innerHTML= ''
+                        window.Swal.fire('Sucesso!','Imagem Deletada do banco de dados!','success')
+      
+                } else if(result.value == 'Capa') {
+                    var SetLogado = localStorage.getItem('login');
+                    localStorage.setItem(`Capa_${SetLogado}`,dbdados.Url)
+                    setTimeout(function(){
+                       
+                        Capaimage('click')
+                    },500)
+                       
+                   }  else if (result.value == 'Baixar') {
+                    const a = document.createElement('a');
+            let url =` ${dbdados.Url}.'jpg'`;
+            if (!url.match(/\.(jpg|jpeg|png)$/)) {
+                url = `${url}.jpg`; // Adiciona .jpg se não houver extensão
+            }
+            a.href = url;
+            a.download = `imagem.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          
+                }
+            else if(result.value == 'Perfil') {
+
+               
+                 localStorage.setItem('Foto_perfil',` ${dbdados.Url}.jpg`);
+
+                 const firebaseConfiguref = {
+                  apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+                  authDomain: "game-dbv.firebaseapp.com",
+                  projectId: "game-dbv",
+                  storageBucket: "game-dbv.appspot.com",
+                  messagingSenderId: "118219151865",
+                  appId: "1:118219151865:web:b6414d5255233264268528",
+                  measurementId: "G-K17DLDBYGR"
+                };
+        
+              firebase.initializeApp(firebaseConfiguref);  
+      
+                 const dbf = firebase.firestore();
+
+                 var login=  localStorage.getItem('login');
+                 var password= localStorage.getItem('password');
+                 var nome_login= localStorage.getItem('nome_login');
+                 var Foto_perfil= localStorage.getItem('Foto_perfil');
+
+              dbf.collection('Users').doc(login).set({
+
+                           Email: login,
+                           Nome: nome_login,
+                           Senha: password,
+                           Foto: Foto_perfil,
+
+          
+                        })
+                    setTimeout(function(){
+                      
+                        var Foto_perfil= localStorage.getItem('Foto_perfil');
+                        document.getElementById('img_menu').src= Foto_perfil
+                        document.getElementById('div_foter_menu').style.display= 'block'
+                     
+                     
+                    },2000);
+             
+                 
+                    setTimeout(function(){
+                      
+                        var Foto_perfil= localStorage.getItem('Foto_perfil');
+                        document.getElementById('img_menu').src= Foto_perfil
+                        document.getElementById('div_foter_menu').style.display= 'block'
+                     
+                     
+                    },2000)
+            }
+        }
+            });
+                 })
+                })
+
+             })
+            
+            })      
+        })
+        });
+        function ex_list(){
+            var lista= document.getElementById('div_list');
+            localStorage.setItem('pasta_', '')
+            lista.innerHTML= ''
+        }
+   </script>
+   <script>
+    function add_imagem() {
+        window.open('../HTML/Upload.html', '_blank', "icon= src/Profile-PNG-Images.ico, width=600, height=730,  resizable= false, autoHideMenuBar= true")
+ }
+   </script>
+   <script>
+    // Tela cheia
+    function toggleFullScreen() {
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+            (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+            if (document.documentElement.requestFullScreen) {
+                document.documentElement.requestFullScreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullScreen) {
+                document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+           }
+      }
+    }
+</script>
+<script>
+    setInterval(function() {
+    
+const newDate = new Date()
+var dia = String(newDate.getDate()).padStart(2, '0');
+var mes = String(newDate.getMonth() + 1).padStart(2, '0');
+var ano = String(newDate.getFullYear()).padStart(2, '0')
+var data = `${dia}/${mes}/${ano}`
+const now = new Date();
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+const timeString = `${hours}:${minutes}:${seconds}`;
+// const lbl_data = document.getElementById('lbl-data');
+
+// lbl_data.innerHTML = `${data}`
+
+localStorage.setItem('data', data)
+localStorage.setItem('hora', timeString)
+
+var Horario = document.getElementById('lbl_09')
+Horario.innerHTML= timeString
+
+}, 1000)
+</script>
+
+</body>
+</html>

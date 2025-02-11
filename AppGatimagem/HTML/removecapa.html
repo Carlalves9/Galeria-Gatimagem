@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remova Capa</title>
+
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(36, 36, 79);
+            color: #ffffff;
+        }
+        #geral {
+            margin: 0 auto;
+            width: 98%;
+          
+        }
+        #body {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        h2{
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: rgb(189, 185, 185);
+        }
+        #body label {
+            width: 250px;
+            padding: 10px;
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 10px;
+            margin-right: 10px;
+            background-color: rgba(6, 144, 189, 0.302);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(255, 255, 255);
+            margin-left: 10px;
+        }
+        #body label:hover {
+            background-color: aqua;
+            border: 2px solid red;
+            color: red;
+        } #display1,#display2,#display3,#display4,#display5,#display6,#display7,#display8,#display9 {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+        }
+        #div_modelos1, #div_modelos2, #div_modelos3 {
+            display: none;
+        }
+        #display1 img, #display2 img, #display3 img, #display4 img, #display5 img, #display6 img, #display7 img, #display8 img, #display9 img {
+            width: 200px;
+            height: 100px;
+        }
+        #Btns {
+            margin: 0 auto;
+            width:82%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+           border: 2px solid aqua;
+           margin-bottom: 30px;
+           margin-top: 20px;
+           
+        }      
+        #Btns label {
+            font-size: 14px;
+            cursor: pointer;
+            font-weight:bold
+        }
+        #Btns label:hover {
+            color: rgb(8, 216, 206);
+           
+        }
+    </style>
+</head>
+<body>
+    <div id="geral">
+        <h2>Remover Capa?</h2>
+  <div id="body">
+        <label for="" onclick="Remova()">Sim, Remover</label>
+        <label for="" onclick="Não()">Não, Cancelar</label>
+</div>
+<br>
+<div id="Btns">
+    <label id="lbl_01" for="" onclick="paisagens()">Paisagens</label>
+    <label id="lbl_02" for=""  onclick="semImagem()">Animais</label>
+    <label id="lbl_03" for=""  onclick="diver()">Imagem-Off</label>
+</div>
+<div id="div_modelos1">
+  
+    <div id="display1">
+        <img id="img1" src="https://img.wallpapic-br.com/i279-313-37/medium/ceu-natureza-horizonte-tropicos-imagem-de-fundo.jpg" alt="" onclick="img1()">
+        <img id="img2" src="https://png.pngtree.com/back_origin_pic/04/06/56/c16a17e4484e1bdf02d1d83fdc19461c.jpg" alt="" onclick="img2()">
+        <img id="img3" src="https://th.bing.com/th/id/R.13e4de6c5c7420bd8935bfd1993f409b?rik=Cu5%2fJxYrwQFxwA&riu=http%3a%2f%2f1.bp.blogspot.com%2f-45yXdYNicDo%2fTlVLVE6jqqI%2fAAAAAAAADX8%2fjWWUTjEp34Y%2fs1600%2fpaisagem-montanhosa-imagens-imagem-de-fundo-wallpaper-para-pc-computador-tela-gratis-ambiente-de-trabalho.jpg&ehk=X0f9J7m29J2S57t1%2bumCW793%2bAHdyRfz2fYyRU698iM%3d&risl=&pid=ImgRaw&r=0" alt=""  onclick="img3()">
+    </div>
+    <div id="display2">
+        <img id="img4" src="https://1.bp.blogspot.com/-v6qv4xMvllw/WKAjmoIkmYI/AAAAAAAAA6s/eoP2UAizsOIRliU5AR4QQR_nF2PSv93CACLcB/s2560/papeldeparede-campo-flores.jpg" alt="" onclick="img4()">
+        <img id="img5" src="https://th.bing.com/th/id/OIP.z5esuqbOcERfnGmIe3n_OwHaEo?w=291&h=181&c=7&r=0&o=5&pid=1.7" alt="" onclick="img5()">
+        <img id="img6" src="https://th.bing.com/th/id/R.7e928236f5c2671dc142d3f4f08283b4?rik=a%2fyo%2bMXlY6S7mg&pid=ImgRaw&r=0" alt="" onclick="img6()">
+    </div>
+    <div id="display3">
+        <img id="img7" src="https://th.bing.com/th/id/OIP.o5sHa3R6DF7c8FNDAbPt6wHaEK?rs=1&pid=ImgDetMain" alt="" onclick="img7()">
+        <img id="img8" src="https://th.bing.com/th/id/R.982c551209305f60c9f2049382d17fdf?rik=%2fOSA9uwCgxvj5w&riu=http%3a%2f%2f3.bp.blogspot.com%2f-NypnGEdpPis%2fTlLVIQFYXTI%2fAAAAAAAADRo%2f2CgolrQ9uMQ%2fs1600%2fabstrato-bolas-em-varias-cores-imagens-imagem-de-fundo-wallpaper-para-pc-computador-tela-gratis-ambiente-de-trabalho.jpg&ehk=Olhd1L35k%2bWEw6BnXmXKxHsACimbswWC0LP%2bQIgLIyU%3d&risl=&pid=ImgRaw&r=0" alt="" onclick="img8()">
+        <img id="img9" src="https://th.bing.com/th/id/OIP.2R4wfKps1QHy-6r3ZNoEgQHaEo?rs=1&pid=ImgDetMain" alt=""onclick="img9()">
+    </div>
+</div>
+    <div id="div_modelos2">
+   
+        <div id="display4">
+            <img id="img10" src="https://th.bing.com/th/id/OIP._hr58KvAyTGUgu5SYz_vXAHaFj?rs=1&pid=ImgDetMain" alt="" onclick="img10()">
+            <img id="img11" src="https://th.bing.com/th/id/OIP.Qr6iDBxM0zf-cZTznt_8oQHaGS?rs=1&pid=ImgDetMain" alt="" onclick="img11()">
+            <img id="img12" src="https://th.bing.com/th/id/R.b3883af34180764254903a50c6fdf00d?rik=eUQvDYAG3aDayQ&pid=ImgRaw&r=0" alt="" onclick="img12()">
+        </div>
+        <div id="display5">
+            <img id="img13" src="https://th.bing.com/th/id/R.ea0fbaf3bb24dfcd87d6e0e215ae7746?rik=JBuMtULeYvds3g&riu=http%3a%2f%2f4.bp.blogspot.com%2f-BMM9umOXC8k%2fT2PFcON_wNI%2fAAAAAAAAEhc%2fZYqjZY-7Ef8%2fs1600%2fdesenho-de-tigre-imagens-imagem-de-fundo-wallpaper-para-pc-computador-tela-gratis-ambiente-de-trabalho.jpg&ehk=4cwHi7NWnMkn%2b7UB5jVGmmOv0rTYXMxjJW5irPijKUc%3d&risl=&pid=ImgRaw&r=0" alt="" onclick="img13()">
+            <img id="img14" src="https://th.bing.com/th/id/OIP.6GcsMPS9R-J8tiE54RPLjAHaEZ?rs=1&pid=ImgDetMain" alt="" onclick="img14()">
+            <img id="img15" src="https://th.bing.com/th/id/OIP.Fhzw76ur3lnP756ywEEuZwHaEg?rs=1&pid=ImgDetMain" alt="" onclick="img15()">
+        </div>
+        <div id="display6">
+            <img id="img16" src="https://th.bing.com/th/id/OIP.6_yBUDWD1UFr_9x_z6js5QHaF7?rs=1&pid=ImgDetMain" alt="" onclick="img16()">
+            <img id="img17" src="https://th.bing.com/th/id/R.2c9a6c08cd930db5b506fd85252ff6ab?rik=A%2bCfApVwbWyb7A&pid=ImgRaw&r=0" alt="" onclick="img17()">
+            <img id="img18" src="https://th.bing.com/th/id/R.fad677a32f266152bab15fd8d9e8245c?rik=zeLPT2gwOUA3zA&pid=ImgRaw&r=0" alt=""onclick="img18()">
+        </div>
+    </div>
+        <div id="div_modelos3">
+      
+            <div id="display7">
+                <img id="img19" src="https://th.bing.com/th/id/OIP.YYlMtU2YBznF-L3MTLlKxQHaEK?rs=1&pid=ImgDetMain" alt="" onclick="img19()">
+                <img id="img20" src="https://wallpapercave.com/wp/wp10377286.jpg" alt="" onclick="img20()">
+                <img id="img21" src="https://th.bing.com/th/id/R.2672bfcb5e2b05389bc5f5e2c4ad545c?rik=hWT9Fp6kNEv8JQ&pid=ImgRaw&r=0" alt="" onclick="img21()">
+        
+            </div>
+            <div id="display8">
+                <img id="img22" src="https://th.bing.com/th/id/OIP.XezKFJ5iGu56BI17aSuu0QHaEo?rs=1&pid=ImgDetMain" alt=""onclick="img22()">
+                <img id="img23" src="https://th.bing.com/th/id/OIP.PtPmPrQF9iYgKoJ-mMj8wQHaEo?rs=1&pid=ImgDetMain" alt="" onclick="img23()">
+                <img id="img24" src="https://th.bing.com/th/id/OIP.PtPmPrQF9iYgKoJ-mMj8wQHaEo?rs=1&pid=ImgDetMain" alt="" onclick="img24()">
+            </div>
+            <div id="display9">
+                <img id="img25" src="https://th.bing.com/th/id/OIP.sj219aj-LcUes-lErIkyAAHaFh?rs=1&pid=ImgDetMain" alt="" onclick="img25()">
+                <img id="img26" src="https://th.bing.com/th/id/R.9efbaef0eef2602b682eb4875b8a2edb?rik=JwN1qL36qmTl3g&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f06%2fHD-Backgrounds-Solid-Color-Free-Download.jpg&ehk=A6PEt1ixIMsKTnQr%2frjZU7R42po8Zaxp1u5YhXseSfY%3d&risl=&pid=ImgRaw&r=0" alt="" onclick="img26()">
+                <img id="img27" src="https://th.bing.com/th/id/OIP.hSR_RuvezyBLSA9BY0g88gHaEo?rs=1&pid=ImgDetMain" alt=""onclick="img27()">
+            </div>
+     </div>
+<script>
+     var md1 = document.getElementById("lbl_01");
+     var md2= document.getElementById("lbl_02");
+     var md3= document.getElementById("lbl_03");
+      document.getElementById("div_modelos1").style.display= 'block'
+      md1.style.color= 'aqua'
+      md2.style.color= ' #ffffff'
+      md3.style.color= ' #ffffff'
+
+    function paisagens() {
+   
+        document.getElementById("div_modelos1").style.display= 'block'
+         document.getElementById("div_modelos2").style.display= 'none'
+          document.getElementById("div_modelos3").style.display= 'none'
+          md1.style.color= 'aqua'
+          md2.style.color= ' #ffffff'
+          md3.style.color= ' #ffffff'
+    };
+    function semImagem() {
+    
+        document.getElementById("div_modelos2").style.display= 'block'
+         document.getElementById("div_modelos1").style.display= 'none'
+          document.getElementById("div_modelos3").style.display= 'none'
+          md2.style.color= 'aqua'
+          md1.style.color= ' #ffffff'
+          md3.style.color= ' #ffffff'
+    };
+    function diver() {
+        document.getElementById("div_modelos3").style.display= 'block'
+         document.getElementById("div_modelos1").style.display= 'none'
+          document.getElementById("div_modelos2").style.display= 'none'
+          md3.style.color= 'aqua'
+          md1.style.color= ' #ffffff'
+          md2.style.color= ' #ffffff'
+    }
+</script>
+    <script>
+        function Remova(){
+            var SetLogado = localStorage.getItem('login');
+            localStorage.setItem(`Capa_${SetLogado}`,'');
+        
+          
+        };
+        function Não(){
+            setTimeout(function(){
+                window.close()
+                
+            },500)
+          
+        };
+
+
+
+
+    </script>
+    <script>
+        function img1(){
+       var img1= document.getElementById('img1').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img2(){
+       var img1= document.getElementById('img2').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img3(){
+       var img1= document.getElementById('img3').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img4(){
+       var img1= document.getElementById('img4').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img5(){
+       var img1= document.getElementById('img5').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img6(){
+       var img1= document.getElementById('img6').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img7(){
+       var img1= document.getElementById('img7').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img8(){
+       var img1= document.getElementById('img8').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img9(){
+       var img1= document.getElementById('img9').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img10(){
+       var img1= document.getElementById('img10').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img11(){
+       var img1= document.getElementById('img11').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img12(){
+       var img1= document.getElementById('img12').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img13(){
+       var img1= document.getElementById('img13').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img14(){
+       var img1= document.getElementById('img14').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img15(){
+       var img1= document.getElementById('img15').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img16(){
+       var img1= document.getElementById('img16').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img17(){
+       var img1= document.getElementById('img17').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img18(){
+       var img1= document.getElementById('img18').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img19(){
+       var img1= document.getElementById('img19').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img20(){
+       var img1= document.getElementById('img20').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img21(){
+       var img1= document.getElementById('img21').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img22(){
+       var img1= document.getElementById('img22').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img23(){
+       var img1= document.getElementById('img23').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img24(){
+       var img1= document.getElementById('img24').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img25(){
+       var img1= document.getElementById('img25').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img26(){
+       var img1= document.getElementById('img26').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+        function img27(){
+       var img1= document.getElementById('img27').src;
+       var SetLogado = localStorage.getItem('login');
+       localStorage.setItem(`Capa_${SetLogado}`, img1);
+        };
+    </script>
+</body>
+</html>

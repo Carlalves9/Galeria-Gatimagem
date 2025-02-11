@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/60de48ee9a.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+  body {
+ 
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #600399;
+    color: rgb(255, 255, 255);
+}
+#geral {
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+}
+.upload-area {
+    margin: 0 auto;
+    margin-top: 5px;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    width: 400px;
+    background-color: #989595;
+    height: 4vh;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    border-color: red;
+}
+.upload-area:hover {
+    background-color: aqua;
+    border-color: rgb(7, 160, 2);
+    color: rgb(22, 99, 3);
+}
+#immgg {
+    max-width: 200px;
+    max-height: 200px;
+    border: 2px solid rgb(70, 69, 69);
+    padding: 3px;
+    border-radius: 5px;
+}
+#preview {
+    margin-top: 10px;
+}
+#div_input input {
+    width: 500px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 7px;
+    border: 1px solid rgb(108, 106, 106); 
+    margin-bottom: 10px;
+}
+select {
+    width: 200px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(231, 239, 247);
+    margin-bottom: 10px;
+}
+select:hover {
+    background-color: aqua;
+    color: #600399;
+}
+option{
+    background-color: rgb(214, 236, 250);
+    color: #af0f0f;
+}
+#divlocal {
+    margin-bottom: 10px;
+}
+#label_pasta {
+    display: none;
+}
+#myProgress {
+            width: 90%;
+            background-color:rgb(122, 120, 120);
+            display: none;
+            border-radius: 7px;
+            margin-left: 5%;
+            margin-bottom: 10px;
+        }   
+        #myBar {
+            width: 1%;
+            /* Começa com 1% */
+            height: 20px;
+            background-color:rgb(117, 233, 9);
+            text-align: center;
+            /* Centraliza horizontalmente */
+            line-height: 21px;
+            /* Centraliza verticalmente */
+            color: rgb(61, 59, 59);
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="geral">
+        <div id="divlocal" >
+            <select name="Local" id="id_local" title="Escolha onde guardar o arquivo">Local de armazenamento
+                <option value="Galeria" onclick="option()"> Galeria</option>
+                <option id="opitio_pasta" value="Pasta"> Nova Pasta</option>
+            </select>
+        </div>
+        
+    <div id="div_input">
+
+        <label id="label_pasta" for="">Nome da Pasta: <br>
+            <input id="input_pasta" type="text" placeholder=" Digite nome da Pasta ou Ref....">
+        </label>
+        
+        <label for="nome">Nome da imagem: <br>
+            <input id="input_nome" type="text" placeholder="Digite nome da Imagem ou Ref:...">
+        </label> 
+        <div id="myProgress">
+            <div id="myBar">10%</div>
+    </div>
+    <br><br>
+    <div class="upload-area" id="upload-area">
+        Arraste e solte a imagem aqui ou clique para selecionar
+        <input type="file" id="file-input" accept="image/" hidden>
+    </div>
+    <br><br>
+    <div id="preview"></div>
+</div>
+<script>
+    function barra() {
+        document.getElementById('myProgress').style.display = 'block'
+            var i = 0;
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var width = 1;
+                var id = setInterval(frame, 55);
+
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;                        
+                              document.getElementById('myProgress').style.display = 'none'
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                       elem.innerHTML = width + "%"; // Atualiza o texto do rótulo
+                    }
+                }
+            }
+        }
+</script>
+<script>
+    var GL = localStorage.getItem('pasta_')
+    var  resp_ = GL.split('_');
+    var resp = resp_[0] ;
+  
+    if(!resp | resp == '') {
+         document.getElementById('label_pasta').style.display='none'
+         document.getElementById('input_pasta').value= '';
+         var option = document.getElementById('opitio_pasta');
+          if(option) {
+            option.textContent = 'Nova Pasta'
+          }
+    } else {
+          document.getElementById('label_pasta').style.display='block'
+          var option = document.getElementById('opitio_pasta');
+          if(option) {
+            option.selected = true;
+            option.textContent = resp
+            document.getElementById('input_pasta').value= resp;
+          }
+       //  document.getElementById('id_local').option= resp
+          //  localPasta.value.innerHTML= GL
+    }
+    setInterval(function(){
+        var SetLogado = localStorage.getItem('login');
+       var resp=  document.getElementById('id_local').value;
+       if(!resp | resp == `Galeria` | resp == '') {
+        document.getElementById('label_pasta').style.display='none'
+        document.getElementById('input_pasta').value= '';
+        var option = document.getElementById('opitio_pasta');
+        localStorage.setItem('pasta_','')
+          if(option) {
+            option.textContent = 'Nova Pasta'
+          }
+       } else {
+           document.getElementById('label_pasta').style.display='block'
+       }
+    },200)
+    document.addEventListener('DOMContentLoaded', () => {
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+    const preview = document.getElementById('preview');
+
+    uploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+    fileInput.addEventListener('change', (event) => {
+        handleFiles(event.target.files);
+    });
+    uploadArea.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        uploadArea.classList.add('dragging');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragging');
+    });
+    uploadArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        uploadArea.classList.remove('dragging');
+        handleFiles(event.dataTransfer.files);
+    });
+    function handleFiles(files) {
+        var SetLogado = localStorage.getItem('login');
+        var hora = localStorage.getItem('hora')
+        var nome= document.getElementById('input_nome').value;
+        var pasta= document.getElementById('input_pasta').value;
+        // contem /#$%@&* ?
+        if(!pasta | pasta == ``) {
+            var pasta = `Galeria`;
+        }
+        if( !nome | nome =='' ) {
+            document.getElementById('input_nome').value = 'Minha Gatimagem';
+           var nome = 'Minha Gatimagem';
+        } else {
+            
+        }
+        preview.innerHTML = '';
+        for (const file of files) {
+            if (file.type.startsWith('image/')) {
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = document.createElement('img');
+                    img.id = 'immgg'
+                    img.src = event.target.result;
+                    img.style.Width = '200%';
+                    img.style = ` fileSize: 1024 * 1024 * 5  `;
+                    preview.appendChild(img);       
+                };
+                reader.readAsDataURL(file);
+                var SetLogado = localStorage.getItem('login');
+
+        
+                const firebaseConfig = {
+       apiKey: "AIzaSyCV5kHc_GG_eMfQJfSVscQYvaGIl4Auj3k",
+       authDomain: "game-dbv.firebaseapp.com",
+       projectId: "game-dbv",
+       storageBucket: "game-dbv.appspot.com",
+       messagingSenderId: "118219151865",
+       appId: "1:118219151865:web:b6414d5255233264268528",
+       measurementId: "G-K17DLDBYGR"
+     };
+        firebase.initializeApp(firebaseConfig);   
+        var nome= document.getElementById('input_nome').value;
+        var SetLogado = localStorage.getItem('login');
+    
+            var img_file= firebase.storage().ref( `${nome}-${hora}.jpg`)
+            img_file.put(file)
+        setTimeout(function(){
+            var pasta= document.getElementById('input_pasta').value;
+        if(!pasta | pasta == 'Galeria') {
+            var pasta = `Galeria`
+        } 
+            img_file.getDownloadURL().then(function(url_imagem) {
+               localStorage.setItem('url', url_imagem)
+               //Salve()
+               setTimeout(function(){
+                var SetLogado = localStorage.getItem('login');
+              
+               var nome= document.getElementById('input_nome').value;
+               var db = firebase.firestore();
+                     db.collection(`${pasta}_${SetLogado}`).doc(`${nome}-${hora}.jpg`). set({
+                     Nome: nome,
+                     Pasta: `${pasta}_${SetLogado}`,
+                     Url: url_imagem,
+           }) 
+           var SetLogado = localStorage.getItem('login');
+           var dbs = firebase.firestore();
+           dbs.collection(`ComPasta_${SetLogado}`).doc(`${pasta}_${SetLogado}`). set({
+           Pasta: `${pasta}`,
+           })
+             window.Swal.fire('Sucesso!',`Foto salvano banco de dados,`,'success')
+             document.getElementById('input_nome').value= ''
+             document.getElementById('immgg').src= '' 
+             localStorage.setItem('url', '')
+             localStorage.setItem('pasta_','')
+             setTimeout(function(){
+                localStorage.setItem('reload','reload') 
+                var url_imagem = ''
+             },2000)
+            },1000)
+             
+            })
+       },4000)
+            barra('click')
+             } else {
+                  window.Swal.fire('Atenção','Por favor, selecione um arquivo de imagem.','');
+              }
+             }
+         }
+    }
+       );
+</script>
+<script>
+    setInterval(function() {
+const newDate = new Date()
+var dia = String(newDate.getDate()).padStart(2, '0');
+var mes = String(newDate.getMonth() + 1).padStart(2, '0');
+var ano = String(newDate.getFullYear()).padStart(2, '0')
+var data = `${dia}/${mes}/${ano}`
+const now = new Date();
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
+const seconds = now.getSeconds().toString().padStart(2, '0');
+const timeString = `${hours}:${minutes}:${seconds}`;
+// const lbl_data = document.getElementById('lbl-data');
+// lbl_data.innerHTML = `${data}`
+localStorage.setItem('data', data)
+localStorage.setItem('hora', timeString)
+}, 1000)
+</script>
+</body>
+</html>
