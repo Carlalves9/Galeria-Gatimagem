@@ -367,6 +367,13 @@
         background-color: rgba(0, 255, 255, 0);
         text-decoration: underline 2px solid rgba(255, 254, 254, 0.507);
        }
+       #I_id {
+        font-size: 16px;
+       }
+       #lbl_footer_menu3 {
+        color: rgb(255, 0, 221);
+        font-size: 14px;
+       }
          
     </style>
 </head>
@@ -451,9 +458,9 @@
         <label id="lbl_menu_email" for="">Email</label>
         <br> <br>
         <h2>Menu</h2>
-        <label id="lbl_footer_menu1" for="" onclick="caoa_galeria()">Capa Galeria</label><br> <br><br>
-        <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia</label><br><br><br>
-        <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda</label><br><br><br>
+        <label id="lbl_footer_menu1" for="" onclick="capa_galeria()">Capa Galeria <i id="I_id" class="fa-solid fa-images"></i></label><br> <br><br>
+        <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia <i id="I_id" class="fa-solid fa-desktop"></i></label><br><br><br>
+        <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda <i id="I_id" class="fa-solid fa-calendar-days"></i><i id="I_id" class="fa-thin fa-calendar-lines-pen"></i></label><br><br><br>
         <label id="lbl_footer_menu4" for=""></label><br><br><br>
         <label id="lbl_footer_menu5" for="" onclick="Sair_menu()">Exit</label><br><br><br>
     </div>
@@ -511,7 +518,7 @@
            document.getElementById('div_foter_menu').style.display= 'none'
          }
         };
-        function caoa_galeria() {
+        function capa_galeria() {
             window.open('../HTML/removecapa.html','_blank', "icon=src/Profile-PNG-Images.png, width=800, height=650 resizable= false, autoHideMenuBar= true")       
         };
         function tela() {
@@ -683,7 +690,7 @@
 
     function RecSenha() {
         Swal.fire({
-                title: 'Insira suas informações de login',
+                title: 'Informações de login',
                 html: `
                     <input type="text" id="nome" class="swal2-input" placeholder="Nome">
                     <input type="email" id="email" class="swal2-input" placeholder="Email">
