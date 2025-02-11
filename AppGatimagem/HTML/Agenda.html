@@ -1012,7 +1012,13 @@
             
                 } else {
                     document.getElementById('img_1').src= Foto_perfil
-                    document.getElementById('lbl_nome').innerHTML= `Olá, ${nome} ${sobre}`
+                    if(!sobre | sobre ==''){
+
+                         document.getElementById('lbl_nome').innerHTML= `Olá, ${nome}`
+                    } else {
+                         document.getElementById('lbl_nome').innerHTML= `Olá, ${nome} ${sobre}`
+                    }
+                   
                 };
 
                 if(password !== ''| email_user !== ''){
