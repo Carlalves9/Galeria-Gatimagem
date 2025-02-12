@@ -288,13 +288,15 @@
           padding: 7px;
           background-color: black;
           color: aliceblue;
-          flex-wrap: wrap;
           float: right;
           position: fixed;
           bottom: 20px;
           text-align: center;
           padding-bottom: 3cqh0px;
           padding-top: 20px;
+          flex-wrap: wrap;
+          overflow: scroll;
+    
           
        }
        #img_menu {
@@ -314,13 +316,13 @@
 
         #lbl_footer_menu1, #lbl_footer_menu2, #lbl_footer_menu3, #lbl_footer_menu4,#lbl_footer_menu5 {
             font-family: Arial, Helvetica, sans-serif;
-        width: 80%px;
+        width: 84%;
         padding: 5px;
         font-size: 12px;
         border: 0ch;
         border-radius: 5px;
         cursor: pointer;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
       
         
        }
@@ -461,7 +463,7 @@
         <label id="lbl_footer_menu1" for="" onclick="capa_galeria()">Capa Galeria <i id="I_id" class="fa-solid fa-images"></i></label><br> <br><br>
         <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia <i id="I_id" class="fa-solid fa-desktop"></i></label><br><br><br>
         <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda <i id="I_id" class="fa-solid fa-calendar-days"></i><i id="I_id" class="fa-thin fa-calendar-lines-pen"></i></label><br><br><br>
-        <label id="lbl_footer_menu4" for=""></label><br><br><br>
+        <label id="lbl_footer_menu4" for=""></label><br><br>
         <label id="lbl_footer_menu5" for="" onclick="Sair_menu()">Exit <i id="I_id"  class="fa-solid fa-arrow-right-from-bracket"></i></label><br><br><br>
     </div>
    
@@ -519,7 +521,7 @@
          }
         };
         function capa_galeria() {
-            window.open('../HTML/removecapa.html','_blank', "icon=src/Profile-PNG-Images.png, width=800, height=650 resizable= false, autoHideMenuBar= true")       
+            window.open('../HTML/removecapa.html','_blank', "icon=src/Profile-PNG-Images.png, width=700, height=600 resizable= false, autoHideMenuBar= true")       
         };
         function tela() {
             toggleFullScreen('click') 
@@ -1119,7 +1121,6 @@ const firebaseConfig = {
               firebase.initializeApp(firebaseConfiguref);  
       
                  const dbf = firebase.firestore();
-
                  var login=  localStorage.getItem('login');
                  var password= localStorage.getItem('password');
                  var nome_login= localStorage.getItem('nome_login');
@@ -1131,26 +1132,18 @@ const firebaseConfig = {
                            Nome: nome_login,
                            Senha: password,
                            Foto: Foto_perfil,
-
           
                         })
                     setTimeout(function(){
                       
                         var Foto_perfil= localStorage.getItem('Foto_perfil');
                         document.getElementById('img_menu').src= Foto_perfil
-                        document.getElementById('div_foter_menu').style.display= 'block'
-                     
-                     
-                    },2000);
-             
-                 
-                    setTimeout(function(){
-                      
+                        document.getElementById('div_foter_menu').style.display= 'block'             
+                    },2000);               
+                    setTimeout(function(){                    
                         var Foto_perfil= localStorage.getItem('Foto_perfil');
                         document.getElementById('img_menu').src= Foto_perfil
-                        document.getElementById('div_foter_menu').style.display= 'block'
-                     
-                     
+                        document.getElementById('div_foter_menu').style.display= 'block'                                  
                     },2000)
             }
         }
@@ -1171,7 +1164,7 @@ const firebaseConfig = {
    </script>
    <script>
     function add_imagem() {
-        window.open('../HTML/Upload.html', '_blank', "icon= src/Profile-PNG-Images.ico, width=600, height=730,  resizable= false, autoHideMenuBar= true")
+        window.open('../HTML/Upload.html', '_blank', "icon= src/Profile-PNG-Images.ico, width=430, height=500,  resizable= false, autoHideMenuBar= true")
  }
    </script>
    <script>

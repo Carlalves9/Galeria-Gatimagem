@@ -26,20 +26,20 @@
 #geral {
     margin: 0 auto;
     width: 100%;
-    margin-top: 30px;
+    margin-top:10px;
     text-align: center;
 }
 .upload-area {
     margin: 0 auto;
-    margin-top: 5px;
+
     border: 2px dashed #ccc;
     padding: 20px;
     text-align: center;
     cursor: pointer;
-    width: 400px;
+    width: 300px;
     background-color: #989595;
     height: 4vh;
-    border-radius: 30px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
     border-color: red;
@@ -50,27 +50,27 @@
     color: rgb(22, 99, 3);
 }
 #immgg {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 100px;
+    max-height: 100px;
     border: 2px solid rgb(70, 69, 69);
     padding: 3px;
     border-radius: 5px;
 }
 #preview {
-    margin-top: 10px;
+    margin-top: 3px;
 }
 #div_input input {
-    width: 500px;
-    padding: 12px;
+    width: 370px;
+    padding: 7px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 7px;
     border: 1px solid rgb(108, 106, 106); 
     margin-bottom: 10px;
 }
 select {
     width: 200px;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
     background-color: rgb(231, 239, 247);
     margin-bottom: 10px;
@@ -88,14 +88,14 @@ option{
 }
 #label_pasta {
     display: none;
+    font-size: 13px;
 }
 #myProgress {
             width: 90%;
             background-color:rgb(122, 120, 120);
             display: none;
-            border-radius: 7px;
             margin-left: 5%;
-            margin-bottom: 10px;
+            margin-bottom: 3px;
         }   
         #myBar {
             width: 1%;
@@ -107,9 +107,13 @@ option{
             line-height: 21px;
             /* Centraliza verticalmente */
             color: rgb(61, 59, 59);
-            border-radius: 5px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 5px;
+        }
+        #label_pasta, #lbl_nome {
+            font-size: 13px;
+
+
         }
 
     </style>
@@ -129,18 +133,18 @@ option{
             <input id="input_pasta" type="text" placeholder=" Digite nome da Pasta ou Ref....">
         </label>
         
-        <label for="nome">Nome da imagem: <br>
+        <label id="lbl_nome" for="nome">Nome da imagem: <br>
             <input id="input_nome" type="text" placeholder="Digite nome da Imagem ou Ref:...">
         </label> 
         <div id="myProgress">
             <div id="myBar">10%</div>
     </div>
-    <br><br>
+    <br> <br>
     <div class="upload-area" id="upload-area">
         Arraste e solte a imagem aqui ou clique para selecionar
         <input type="file" id="file-input" accept="image/" hidden>
     </div>
-    <br><br>
+    <br>
     <div id="preview"></div>
 </div>
 <script>
