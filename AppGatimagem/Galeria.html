@@ -20,15 +20,12 @@
         body{
             font-family: Arial, Helvetica, sans-serif;
             background-color: black;
-          
-           
         }
         #div_geral {
             width: 100%;
             height: 98vh;
             background-color: rgb(255, 255, 255); 
             display: none;  
-          
         }
         #div_head {
             width: 100%;
@@ -58,15 +55,12 @@
             height: 50px;
             display: flex;
             align-items: center;  
-            
         }
         ul {
             width: 100px;
-            padding: 10px;
-           
+            padding: 10px; 
             border: 5px solid rgba(82, 81, 79, 0);
             cursor: pointer;
-            
         }
         #div_imagem {
             margin: 0 auto;
@@ -74,8 +68,7 @@
             border: 5px solid rgba(94, 92, 92, 0);
             border-radius: 20px;
             background-color: rgba(137, 43, 226, 0);
-            overflow: scroll; 
-        
+            overflow: scroll;
         }
         #div_list {
             display: flex;
@@ -203,7 +196,6 @@
             margin-right: 10px;
             border: 0cap;
             font-size: 16px;
-            
          }
          #input {
             margin: 0 auto;
@@ -211,7 +203,6 @@
             background-color: #600399f3;
             width: 450px;
             border-radius: 20px;
-           
          }
          #div_cad {
             display: none;
@@ -261,7 +252,6 @@
             align-items: center;
             border-radius: 3px;
             margin-right: 10px;
-      
          }
          #h1_texto {
             padding: 7px;
@@ -271,7 +261,6 @@
             padding-left: 10px;
             padding-right: 10px;
             background-color:rgba(107, 5, 125, 0.917);
-           
          }
        #div_footer {
         max-width: 100%;
@@ -296,8 +285,6 @@
           padding-top: 20px;
           flex-wrap: wrap;
           overflow: scroll;
-    
-          
        }
        #img_menu {
         width: 64px;
@@ -313,9 +300,8 @@
         padding: 2px;
         border: 2px solid rgb(253, 6, 129);
        }
-
         #lbl_footer_menu1, #lbl_footer_menu2, #lbl_footer_menu3, #lbl_footer_menu4,#lbl_footer_menu5 {
-            font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica, sans-serif;
         width: 84%;
         padding: 5px;
         font-size: 12px;
@@ -323,8 +309,6 @@
         border-radius: 5px;
         cursor: pointer;
         margin-bottom: 5px;
-      
-        
        }
        #lbl_footer_menu1:hover, #lbl_footer_menu2:hover, #lbl_footer_menu3:hover, #lbl_footer_menu4:hover, #lbl_footer_menu5:hover {
         font-family: Arial, Helvetica, sans-serif;
@@ -332,8 +316,6 @@
         padding-left: 10px;
         padding-right: px;
         font-weight: bold;
-   
-       
        }
        #lbl_menu_nome, #lbl_menu_email {
         font-family: Arial, Helvetica, sans-serif;
@@ -345,7 +327,6 @@
         margin-bottom: 30px;
        }
        #lbl_09 {
-     
         font-weight: bold;
         color: rgb(73, 245, 5);
         padding: 5px;
@@ -460,10 +441,12 @@
         <label id="lbl_menu_email" for="">Email</label>
         <br> <br>
         <h2>Menu</h2>
-        <label id="lbl_footer_menu1" for="" onclick="capa_galeria()">Capa Galeria <i id="I_id" class="fa-solid fa-images"></i></label><br> <br><br>
-        <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia <i id="I_id" class="fa-solid fa-desktop"></i></label><br><br><br>
-        <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda <i id="I_id" class="fa-solid fa-calendar-days"></i><i id="I_id" class="fa-thin fa-calendar-lines-pen"></i></label><br><br><br>
-        <label id="lbl_footer_menu4" for=""></label><br><br>
+        <label id="lbl_footer_menu1" for="" onclick="capa_galeria()">Capa Galeria <i id="I_id" class="fa-solid fa-images"></i></label><br><br>
+        <label id="lbl_footer_menu4" for="" onclick="calculadora()" >Calculadora <i id="I_id" class="fa-solid fa-calculator"></i></label><br><br>
+        <label id="lbl_footer_menu2" for="" onclick="tela()">Tela Cheia <i id="I_id" class="fa-solid fa-desktop"></i></label><br><br>
+        <label id="lbl_footer_menu3" for="" onclick="Agendar()">Agenda <i id="I_id" class="fa-solid fa-calendar-days"></i></label><br><br>
+        
+
         <label id="lbl_footer_menu5" for="" onclick="Sair_menu()">Exit <i id="I_id"  class="fa-solid fa-arrow-right-from-bracket"></i></label><br><br><br>
     </div>
    
@@ -476,10 +459,14 @@
         </div>
     </div>
     <script>
+        function calculadora() {
+            window.open('../HTML/Calculadora.html','_blank', "icon=src/Profile-PNG-Images.png, width=650, height=700, resizable= false, autoHideMenuBar= true")
+
+        };
 
 
             function Agendar(){
-                window.open('../HTML/Agenda.html','_blank', "icon=src/Profile-PNG-Images.png, width=1100, height=730 resizable= false, autoHideMenuBar= true")
+                window.open('../HTML/Agenda.html','_blank', "icon=src/Profile-PNG-Images.png, width=1100, height=730, resizable= false, autoHideMenuBar= true")
 
             };
 

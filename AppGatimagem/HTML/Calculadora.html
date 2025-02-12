@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="shortcut icon" href="../src/srcGatimagem.png.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/60de48ee9a.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage-compat.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  
+
+    <style>
+        body{
+            background-color: rgb(143, 140, 140);
+            font-family: Arial, Helvetica, sans-serif;
+            background-image: url('../src/Cal 2.jpg');
+        }
+        #geral{
+            margin: 0 auto;
+            background-color: rgba(137, 43, 226, 0);
+            color: rgba(240, 248, 255, 0.37);
+            width: 600px;
+            height: 90vh;
+            border: 10px solid rgba(75, 78, 79, 0);
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow-y: auto;        
+        }
+        #visor {
+            width: 70%;
+            height: 8vh;
+            padding: 5px;
+            font-size: 46px;
+            text-align: center;
+            color: rgb(46, 195, 4);
+            background-color: rgba(2, 10, 17, 0.692);
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 20px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        #display_button {
+            display: flex;
+        }
+        #button {
+             margin-top: 10px;
+             margin-left: 80px;
+             margin-right: 5px;
+        }
+        #button button {
+            padding: 37px;
+            font-size: 18px;
+            border: 3px solid rgb(113, 113, 111);
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            padding-bottom: 30px;
+            background-color: rgb(173, 247, 243);
+        }
+        #button #btn {
+            width: 100%;
+            padding: 19px;
+            font-size: 25px;
+            border: 3px solid rgb(113, 113, 111);
+            margin-top: 1px;
+            font-weight: bold;
+            background-color: rgb(255, 255, 255);
+            
+        }
+        #button #btn:hover{
+            color: rgb(72, 2, 54);
+            border: 3px solid rgb(231, 4, 4);
+        }
+        #button button:hover {
+            background-color: rgb(4, 230, 222);
+            color: rgb(72, 2, 54);
+            border: 3px solid rgb(231, 4, 4);
+        }
+        #operadores {
+            margin-left: 10px;
+            margin-right: 25px;
+            margin-top: 16px;
+        }
+        #Oper,#Oper2,#Oper3,#Oper4,#Oper7,#Oper8 {
+          
+            font-size: 20px;
+            border: 3px solid rgb(113, 113, 111);
+            cursor: pointer;
+            width: 140px;
+            height: 5vh;
+            font-weight: bold;
+            padding: 3px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            padding-top: 10px;
+            padding-bottom: 35px;
+            background-color: rgb(255, 255, 255);
+        }
+        #Oper5,#Oper6 {
+            padding: 15px;
+            font-size: 20px;
+            width: 215px;
+            border: 3px solid rgb(113, 113, 111);
+            cursor: pointer;
+            border-radius: 12px;
+            background-color: rgb(255, 255, 255);
+        }
+        #Oper6:hover {
+            background-color: rgb(3, 151, 43);
+            color: rgb(255, 255, 255);
+            border: 3px solid rgb(3, 151, 43);
+            
+        } 
+        #Oper5:hover{
+            background-color: rgb(240, 5, 17);
+            color: rgb(255, 255, 255);
+            border: 3px solid rgb(231, 4, 4);
+        }
+        #tecle {
+            text-align: center;
+            margin-top: 20px; 
+        }
+        #Oper:hover,#Oper2:hover,#Oper3:hover,#Oper4:hover,#Oper7:hover,#Oper8:hover {
+            background-color: rgb(128, 4, 111);
+            color: rgb(255, 255, 255);
+            border: 3px solid rgb(128, 4, 111);
+           
+        }
+        h1{
+            text-align: center;
+        }
+        #Visor {
+            text-align: center;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            margin-left: 5px;
+            margin-top: 5px;
+            /* Largura da barra de rolagem */
+            cursor: pointer;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            margin-left: 5px;
+            background-color: rgba(170, 4, 81, 0.993);
+            /* Cor do polegar da barra de rolagem */
+            margin-top: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+         ::-webkit-scrollbar-track {
+            /* Cor da trilha da barra de rolagem */
+            margin-top: 5px;
+            border-radius: 7 rgb(177, 175, 175);
+            background-color: rgba(38, 39, 39, 0.993);
+            border-radius: 10px;
+            cursor: pointer;
+         }
+         #lbl_resp {
+            display: none;
+            color: rgb(255, 255, 255);
+            font-size: 25px;
+            font-weight: bold;
+         }
+         #lbl_rs {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 3px;
+         }
+    
+    </style>
+</head>
+
+<body>
+     <div id="geral">
+         
+         <div id="lbl_rs">
+            <label id="lbl_resp" for="">RSP</label>
+           </div>
+         <div id="Visor">
+            <input type="text" name="visor" id="visor" title="Visor" placeholder="000">
+         </div>
+    
+         <div id="tecle">
+            <button id="Oper5" class="limpar" title="/" onclick="limpar()">C</button>
+            <button id="Oper6" class="somar" title="/" onclick="somar()">=</button>
+          </div>
+         <div id="display_button">
+         <div id="button">
+            <button id="btn1" class="number" title="1" >1</button>
+            <button id="btn2"class="number" title="2" >2</button>
+            <button id="btn3"  class="number" title="3" >3</button><br>
+            <button id="btn4"  class="number" title="4" >4</button>
+            <button id="btn5"  class="number" title="5" >5</button>
+            <button id="btn6"  class="number" title="6" >6</button><br>
+            <button id="btn7"  class="number" title="7" >7</button>
+            <button id="btn8"  class="number" title="8" >8</button>
+            <button id="btn9"  class="number" title="9" >9</button><br>
+            <button id="btn"  class="number" title="0" >0</button>
+         </div>
+         <div id="operadores">
+            <button id="Oper" class="Oper" title="+" >+</button><br>
+            <button id="Oper2" class="Oper" title="-" >-</button><br>
+            <button id="Oper3" class="Oper" title="x" >x</button><br>
+            <button id="Oper4" class="Oper" title="/" >/</button><br>
+            <button id="Oper7" class="number" title="." >.</button><br>
+            <button id="Oper8" class="Oper" title="%" >%</button><br>
+           
+         </div>
+        </div>
+
+     </div>
+   
+     <script>
+           setTimeout(function(){
+          
+          limpar_('click')
+          limpar('click')
+      },1000)
+    
+        sessionStorage.setItem('result', '0')
+        sessionStorage.setItem('result2', '0')
+        sessionStorage.setItem('Oper','+')
+        sessionStorage.setItem('result_visor', '0')
+
+           document.addEventListener('DOMContentLoaded',(event) => {
+            const oper = document.querySelectorAll('.Oper');
+            oper.forEach(oper => { oper.addEventListener('click', (o) => {               
+            sessionStorage.setItem('Oper', o.target.textContent)      
+            var operador=  sessionStorage.getItem('Oper')
+           if(!operador || operador=='') {
+            alert(oper)
+           } else {
+           var resplabel = document.getElementById('lbl_resp')
+            var valorOper=  sessionStorage.getItem('result_visor') + operador
+            document.getElementById('visor').value= valorOper
+            sessionStorage.setItem('result_visor',valorOper)
+            resplabel.innerHTML= valorOper
+            sessionStorage.setItem('inner', valorOper)
+           }
+        })             
+            })
+        })           
+            var visor = document.getElementById('visor');
+            document.addEventListener('DOMContentLoaded',(event) => {
+            const button = document.querySelectorAll('.number');
+            button.forEach(button => { button.addEventListener('click', (e) => {
+         //   visor.innerHTML= e.target.textContent
+         var operador=  sessionStorage.getItem('Oper')
+         if(!operador || operador=='') {
+          var valor=  document.getElementById('visor').value;
+         var result= e.target.textContent
+         if(!valor|| valor==''){
+            var result= e.target.textContent
+            sessionStorage.setItem('result', result)
+            document.getElementById('visor').value= result
+            sessionStorage.setItem('result_visor', result)
+            var resplabel = document.getElementById('lbl_resp')
+            resplabel.innerHTML= result
+            document.getElementById('lbl_resp').style.display='block'
+            sessionStorage.setItem('inner', result)
+             
+         } else {
+            var result= e.target.textContent
+            var valor1=  sessionStorage.getItem('result') + result
+            var valorV=  sessionStorage.getItem('result_visor') + result
+            document.getElementById('visor').value= valorV
+            sessionStorage.setItem('result_visor', valorV)
+            sessionStorage.setItem('result', valor1)
+            var resplabel = document.getElementById('lbl_resp')
+            resplabel.innerHTML= valorV
+             document.getElementById('lbl_resp').style.display='block'
+             sessionStorage.setItem('inner', valorV)
+            } 
+        } else {
+         var valor = document.getElementById('visor').value
+         var result2= e.target.textContent
+         if(!valor|| valor==''){
+            var result2= e.target.textContent
+            sessionStorage.setItem('result2', result2)
+            document.getElementById('visor').value= result2
+            sessionStorage.setItem('result_visor', result2)
+            var resplabel = document.getElementById('lbl_resp')
+            resplabel.innerHTML= result2
+             document.getElementById('lbl_resp').style.display= 'block'
+             sessionStorage.setItem('inner', result2)
+         } else {  
+            var result2= e.target.textContent
+            var valor2=  sessionStorage.getItem('result2') + result2
+            var valorV=  sessionStorage.getItem('result_visor') + result2    
+            document.getElementById('visor').value= valorV
+            sessionStorage.setItem('result_visor', valorV)
+            sessionStorage.setItem('result2', valor2)
+            var resplabel = document.getElementById('lbl_resp')
+            resplabel.innerHTML= valorV
+             document.getElementById('lbl_resp').style.display= 'block'
+             sessionStorage.setItem('inner', valorV)  
+            }
+          // window.Swal.fire(`${e.target.textContent}`,'','')
+         }     
+         })
+        }
+         )}
+         )
+         function somar() {
+             var porc= Number(100)
+             resinner= sessionStorage.getItem('inner')
+             var resplabel = document.getElementById('lbl_resp')
+            resplabel.innerHTML= resinner
+             document.getElementById('lbl_resp').style.display= 'block'
+            var operador=  sessionStorage.getItem('Oper')
+            var value1= sessionStorage.getItem('result')
+            var value2= sessionStorage.getItem('result2')
+         
+            if(operador=='+') {
+            var total = parseFloat(value1) + parseFloat(value2);
+            limpar_()
+            document.getElementById('visor').value= `" ${total} "`
+            //     window.Swal.fire(`${total}`,'','')
+            } else if(operador=='-'){
+                var total =  parseFloat(value1) - parseFloat(value2);
+                limpar_()
+                document.getElementById('visor').value= `" ${total} "`
+             //  window.Swal.fire(`${total}`,'','')
+            } else if(operador=='x'){
+                var total = parseFloat(value1) * parseFloat(value2);
+                limpar_()
+                document.getElementById('visor').value= `" ${total} "`
+              //  window.Swal.fire(`${total}`,'','')
+         } else if(operador=='/'){
+                var total =  parseFloat(value1) / parseFloat(value2);
+                limpar_()
+                document.getElementById('visor').value= `" ${total} "`       
+                //window.Swal.fire(`${total}`,'','')
+         }  else if(operador=='%'){
+                var total_ =   parseFloat(value1) * (parseFloat(value2) / porc);
+                limpar_()
+                document.getElementById('visor').value= `" ${total_} "`       
+                //window.Swal.fire(`${total}`,'','')
+         }
+        }
+        function limpar(){
+            sessionStorage.setItem('result', '')
+            sessionStorage.setItem('result2','')
+            sessionStorage.setItem('result_visor', '')
+            sessionStorage.setItem('Oper','')
+            document.getElementById('visor').value=''
+             document.getElementById('lbl_resp').style.display= 'none'
+        }
+        function limpar_(){   
+          sessionStorage.setItem('result', '')
+          sessionStorage.setItem('result2','')
+          sessionStorage.setItem('result_visor', '')
+          sessionStorage.setItem('Oper','')
+          document.getElementById('visor').value=''
+      }
+
+     </script>
+</body>
+</html>
